@@ -1,0 +1,2142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JAMS ELECTRONICS | Mukter Ali - Ramnagar, Gazole, Malda</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter + Bengali & Hindi Support -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+Bengali:wght@400;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      font-family: 'Inter', 'Noto Sans Bengali', 'Noto Sans Devanagari', sans-serif;
+      background-color: #f8fafc;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.75); }
+      70% { transform: scale(1); box-shadow: 0 0 0 14px rgba(220, 38, 38, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+    }
+    .helpline-pulse { animation: pulse-ring 2s infinite; }
+  </style>
+</head>
+<body class="text-gray-900 pb-24 selection:bg-yellow-400 selection:text-red-950">
+
+  <!-- Toast Notification Container (No alert() used anywhere) -->
+  <div id="toast-container" class="fixed top-20 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-2 w-11/12 max-w-sm pointer-events-none"></div>
+
+  <!-- STICKY TOP HEADER (RED, YELLOW & WHITE THEME) -->
+  <header class="sticky top-0 z-40 bg-red-600 text-white shadow-xl border-b-4 border-yellow-400">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex items-center justify-between gap-2">
+      <!-- Brand Logo -->
+      <div onclick="navigateTo('home')" class="flex items-center gap-2.5 cursor-pointer shrink-0">
+        <div class="w-10 h-10 bg-yellow-400 text-red-700 rounded-2xl flex items-center justify-center font-black text-xl shadow-md border-2 border-white">
+          JE
+        </div>
+        <div>
+          <h1 class="font-black text-base sm:text-xl tracking-tight leading-none text-white">
+            JAMS <span class="text-yellow-300">ELECTRONICS</span>
+          </h1>
+          <p class="text-[10px] sm:text-xs text-yellow-200 font-semibold mt-0.5">
+            Ramnagar, Gazole, Malda • Mukter Ali
+          </p>
+        </div>
+      </div>
+
+      <!-- Desktop Search Bar -->
+      <div class="hidden md:flex flex-1 max-w-lg mx-4 relative">
+        <input
+          type="text"
+          id="desktop-search"
+          oninput="handleSearch(this.value)"
+          placeholder="Search amplifiers, mobiles, fashion, home appliances..."
+          class="w-full py-2 pl-4 pr-12 rounded-xl text-gray-900 bg-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-yellow-400"
+        />
+        <button onclick="navigateTo('home')" class="absolute right-1 top-1 bottom-1 bg-yellow-400 hover:bg-yellow-500 text-red-950 px-3.5 rounded-lg font-black text-xs flex items-center gap-1">
+          <i data-lucide="search" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Right Controls: Admin (+) Button, Notifications, Role Status -->
+      <div class="flex items-center gap-2">
+        <!-- ADMIN-ONLY PLUS (+) BUTTON (Hidden for Customers!) -->
+        <button
+          id="header-admin-plus"
+          onclick="openAdminProductModal()"
+          class="hidden bg-yellow-400 hover:bg-yellow-300 text-red-950 px-3 py-2 rounded-xl font-black text-xs shadow-lg border-2 border-white flex items-center gap-1 transition transform active:scale-95"
+          title="Admin Product Upload"
+        >
+          <i data-lucide="plus" class="w-4 h-4 stroke-[3]"></i>
+          <span class="hidden sm:inline">Add Product</span>
+        </button>
+
+        <!-- Notification Bell -->
+        <button onclick="openNotificationsModal()" class="relative p-2 bg-red-700 hover:bg-red-800 rounded-xl border border-red-400 transition" title="Notifications">
+          <i data-lucide="bell" class="w-5 h-5 text-yellow-300"></i>
+          <span id="notif-badge" class="absolute -top-1 -right-1 bg-yellow-400 text-red-950 text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow">
+            3
+          </span>
+        </button>
+
+        <!-- Current Role Pill -->
+        <button onclick="navigateTo('account')" id="header-role-pill" class="bg-white/15 hover:bg-white/25 px-2.5 py-1.5 rounded-xl text-[11px] font-bold border border-white/30 flex items-center gap-1">
+          <i data-lucide="user-check" class="w-3.5 h-3.5 text-yellow-300"></i>
+          <span id="header-role-label">Customer</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Search Bar -->
+    <div class="px-3 pb-2.5 md:hidden">
+      <div class="relative flex">
+        <input
+          type="text"
+          id="mobile-search"
+          oninput="handleSearch(this.value)"
+          placeholder="Search products in Malda..."
+          class="w-full py-2 pl-3.5 pr-12 rounded-xl text-gray-900 bg-white text-xs font-medium focus:outline-none focus:ring-2 focus:ring-yellow-400"
+        />
+        <button onclick="navigateTo('home')" class="absolute right-1 top-1 bottom-1 bg-yellow-400 text-red-950 px-3 rounded-lg font-black text-xs flex items-center">
+          <i data-lucide="search" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN APPLICATION CONTAINER -->
+  <main id="app-root" class="max-w-7xl mx-auto px-3 sm:px-6 pt-4"></main>
+
+  <!-- FLOATING CUSTOMER HELPLINE BUTTON (Bottom Right: 8509842589) -->
+  <div class="fixed bottom-20 right-4 z-40 flex flex-col items-end">
+    <div id="helpline-menu" class="hidden mb-3 w-72 bg-white rounded-3xl shadow-2xl border-4 border-red-600 overflow-hidden">
+      <div class="bg-red-600 p-3.5 text-white flex items-center justify-between">
+        <div>
+          <h4 class="font-black text-sm text-yellow-300">JAMS Helpline Support</h4>
+          <p class="text-xs font-bold">8509842589 • Mukter Ali</p>
+        </div>
+        <button onclick="toggleHelplineMenu()" class="p-1 bg-red-700 rounded-lg">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div class="p-3 space-y-1 bg-white">
+        <p class="text-[10px] font-black text-gray-400 uppercase px-1">Select Support Topic:</p>
+        <a href="tel:8509842589" class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-gray-800 hover:bg-yellow-100 hover:text-red-700 transition">
+          <span>1. Order Problems</span>
+          <i data-lucide="phone-outgoing" class="w-3.5 h-3.5 text-red-600"></i>
+        </a>
+        <a href="tel:8509842589" class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-gray-800 hover:bg-yellow-100 hover:text-red-700 transition">
+          <span>2. Delivery Problems</span>
+          <i data-lucide="phone-outgoing" class="w-3.5 h-3.5 text-red-600"></i>
+        </a>
+        <a href="tel:8509842589" class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-gray-800 hover:bg-yellow-100 hover:text-red-700 transition">
+          <span>3. Payment Problems</span>
+          <i data-lucide="phone-outgoing" class="w-3.5 h-3.5 text-red-600"></i>
+        </a>
+        <a href="tel:8509842589" class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-gray-800 hover:bg-yellow-100 hover:text-red-700 transition">
+          <span>4. Return Problems</span>
+          <i data-lucide="phone-outgoing" class="w-3.5 h-3.5 text-red-600"></i>
+        </a>
+        <a href="tel:8509842589" class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-gray-800 hover:bg-yellow-100 hover:text-red-700 transition">
+          <span>5. General Customer Support</span>
+          <i data-lucide="phone-outgoing" class="w-3.5 h-3.5 text-red-600"></i>
+        </a>
+        <div class="pt-2 border-t border-gray-100 grid grid-cols-2 gap-2">
+          <a href="tel:8509842589" class="bg-red-600 hover:bg-red-700 text-yellow-300 py-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-1 shadow">
+            <i data-lucide="phone" class="w-3.5 h-3.5"></i> Dial Now
+          </a>
+          <a href="https://wa.me/918509842589?text=Hello%20JAMS%20ELECTRONICS%2C%20I%20need%20customer%20support." target="_blank" class="bg-green-600 hover:bg-green-700 text-white py-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-1 shadow">
+            <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <button
+      onclick="toggleHelplineMenu()"
+      class="bg-red-600 hover:bg-red-700 text-yellow-300 border-2 border-yellow-400 p-3.5 rounded-full shadow-2xl flex items-center gap-2 helpline-pulse transition transform active:scale-95"
+      title="Call Helpline: 8509842589"
+    >
+      <i data-lucide="phone-call" class="w-6 h-6"></i>
+      <span class="text-xs font-black pr-1 hidden sm:inline">8509842589</span>
+    </button>
+  </div>
+
+  <!-- 5-OPTION BOTTOM NAVIGATION MENU -->
+  <nav class="fixed bottom-0 left-0 right-0 z-40 bg-white border-t-4 border-yellow-400 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+    <div class="max-w-2xl mx-auto flex justify-around items-center h-16 px-1">
+      <button onclick="navigateTo('home')" data-tab="home" class="nav-tab flex flex-col items-center justify-center flex-1 h-full text-red-600 font-black">
+        <i data-lucide="home" class="w-5 h-5"></i>
+        <span class="text-[11px] mt-1" data-i18n="nav_home">Home</span>
+      </button>
+
+      <button onclick="navigateTo('categories')" data-tab="categories" class="nav-tab flex flex-col items-center justify-center flex-1 h-full text-gray-500 font-semibold">
+        <i data-lucide="layout-grid" class="w-5 h-5"></i>
+        <span class="text-[11px] mt-1" data-i18n="nav_categories">Categories</span>
+      </button>
+
+      <button onclick="navigateTo('offers')" data-tab="offers" class="nav-tab flex flex-col items-center justify-center flex-1 h-full text-gray-500 font-semibold">
+        <i data-lucide="flame" class="w-5 h-5"></i>
+        <span class="text-[11px] mt-1" data-i18n="nav_offers">Attractive Offers</span>
+      </button>
+
+      <button onclick="navigateTo('account')" data-tab="account" class="nav-tab flex flex-col items-center justify-center flex-1 h-full text-gray-500 font-semibold">
+        <i data-lucide="user-circle" class="w-5 h-5"></i>
+        <span class="text-[11px] mt-1" data-i18n="nav_account">Account</span>
+      </button>
+
+      <button onclick="navigateTo('cart')" data-tab="cart" class="nav-tab flex flex-col items-center justify-center flex-1 h-full text-gray-500 font-semibold relative">
+        <div class="relative">
+          <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+          <span id="cart-count-badge" class="hidden absolute -top-1.5 -right-2.5 bg-red-600 text-yellow-300 border border-yellow-400 text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center">
+            0
+          </span>
+        </div>
+        <span class="text-[11px] mt-1" data-i18n="nav_cart">Cart</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- UNIVERSAL MODAL CONTAINER -->
+  <div id="modal-overlay" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 overflow-y-auto">
+    <div id="modal-card" class="bg-white rounded-3xl w-full max-w-2xl border-4 border-yellow-400 shadow-2xl overflow-hidden my-auto max-h-[90vh] flex flex-col"></div>
+  </div>
+
+  <!-- COMPLETE APPLICATION SCRIPT -->
+  <script>
+    // =========================================================================
+    // 1. MASTER CONFIGURATION & 20 CATEGORIES
+    // =========================================================================
+    const STORE_INFO = {
+      name: "JAMS ELECTRONICS",
+      owner: "Mukter Ali",
+      launchTarget: "1 January 2027",
+      location: "Ramnagar, Gazole, Malda, West Bengal, India",
+      helpline: "8509842589",
+      adminPass: "8509842589",
+      version: "1.0.0"
+    };
+
+    const ALL_20_CATEGORIES = [
+      { name: "Fashion", icon: "shirt" },
+      { name: "Men's Fashion", icon: "user" },
+      { name: "Women's Fashion", icon: "sparkles" },
+      { name: "Kids' Fashion", icon: "smile" },
+      { name: "Beauty and Personal Care", icon: "heart" },
+      { name: "Electronics", icon: "tv" },
+      { name: "Mobile Phones", icon: "smartphone" },
+      { name: "Mobile Accessories", icon: "headphones" },
+      { name: "Furniture", icon: "armchair" },
+      { name: "Home Appliances", icon: "refrigerator" },
+      { name: "Home and Kitchen", icon: "utensils" },
+      { name: "Food", icon: "pizza" },
+      { name: "Toys", icon: "gamepad-2" },
+      { name: "Grocery", icon: "shopping-basket" },
+      { name: "Sports Products", icon: "trophy" },
+      { name: "Books", icon: "book-open" },
+      { name: "Computer Accessories", icon: "laptop" },
+      { name: "Electrical Products", icon: "zap" },
+      { name: "Amplifier and Sound Systems", icon: "speaker" },
+      { name: "Other Products", icon: "package" }
+    ];
+
+    const ORDER_STATUSES = [
+      "Order Placed",
+      "Order Confirmed",
+      "Processing",
+      "Shipped",
+      "Out for Delivery",
+      "Delivered",
+      "Cancelled",
+      "Return Requested"
+    ];
+
+    const I18N = {
+      en: {
+        welcome: "Welcome to JAMS ELECTRONICS",
+        tagline: "Ramnagar, Gazole, Malda • Trusted Shopping & 2-Day Fast Delivery",
+        nav_home: "Home",
+        nav_categories: "Categories",
+        nav_offers: "Attractive Offers",
+        nav_account: "Account",
+        nav_cart: "Cart",
+        add_cart: "Add to Cart",
+        buy_now: "Buy Now"
+      },
+      bn: {
+        welcome: "JAMS ELECTRONICS-এ স্বাগতম",
+        tagline: "রামনগর, গাজোল, মালদা • বিশ্বস্ত শপিং ও ২ দিনে দ্রুত ডেলিভারি",
+        nav_home: "হোম",
+        nav_categories: "ক্যাটাগরি",
+        nav_offers: "আকর্ষণীয় অফার",
+        nav_account: "অ্যাকাউন্ট",
+        nav_cart: "কার্ট",
+        add_cart: "কার্টে যোগ করুন",
+        buy_now: "এখনই কিনুন"
+      },
+      hi: {
+        welcome: "JAMS ELECTRONICS में आपका स्वागत है",
+        tagline: "रामनगर, गाज़ोल, मालदा • भरोसेमंद शॉपिंग और 2 दिन में तेज़ डिलीवरी",
+        nav_home: "होम",
+        nav_categories: "श्रेणियाँ",
+        nav_offers: "आकर्षक ऑफ़र",
+        nav_account: "अकाउंट",
+        nav_cart: "कार्ट",
+        add_cart: "कार्ट में डालें",
+        buy_now: "अभी खरीदें"
+      }
+    };
+
+    // =========================================================================
+    // 2. PRE-POPULATED REALISTIC PRODUCTS & PERSISTENT STORAGE
+    // =========================================================================
+    const DEFAULT_PRODUCTS = [
+      {
+        id: "prod-1",
+        imageUrl: "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=600&q=80",
+        name: "JAMS Pro 1500W Dual-Channel DJ Bass Amplifier",
+        price: 16999,
+        discountPrice: 12499,
+        description: "High-power heavy copper transformer amplifier built for crystal-clear sound, deep bass punch, and continuous outdoor/indoor performance.",
+        category: "Amplifier and Sound Systems",
+        sizes: ["Standard", "XL"],
+        colors: ["Crimson Red", "Jet Black", "Metallic Gold"],
+        specifications: "1500W RMS Output, Bluetooth 5.3, Dual Mic + AUX Input, Cooling Fan",
+        packSize: "1 Heavy Master Box",
+        quantityPerPack: 1,
+        stock: 12,
+        weight: "9.2 kg",
+        deliveryInfo: "2-Day Express Delivery across Gazole & Malda",
+        offerDetails: "Launch Deal: Free Heavy Duty Audio Cable Included",
+        isPopular: true,
+        isSpecialOffer: true,
+        reviews: [
+          { user: "Suman Roy (Gazole)", rating: 5, text: "Amazing bass quality! Delivered in 1 day to Gazole." },
+          { user: "Tapas Das (Malda)", rating: 5, text: "Best amplifier shop in Ramnagar." }
+        ]
+      },
+      {
+        id: "prod-2",
+        imageUrl: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=600&q=80",
+        name: "Redmi Note 13 Pro+ 5G (12GB RAM, 256GB Storage)",
+        price: 31999,
+        discountPrice: 26999,
+        description: "200MP Ultra-High Res OIS Camera, Curved 1.5K 120Hz AMOLED Display, and 120W HyperCharge adapter included.",
+        category: "Mobile Phones",
+        sizes: ["Standard"],
+        colors: ["Fusion White", "Coral Red", "Midnight Black"],
+        specifications: "Dimensity 7200-Ultra 5G, IP68 Water Resistant, 5000mAh Battery",
+        packSize: "Sealed Retail Box",
+        quantityPerPack: 1,
+        stock: 8,
+        weight: "199 g",
+        deliveryInfo: "2-Day Safe Delivery • Open-Box Inspection Available",
+        offerDetails: "Extra ₹1,500 OFF on UPI Payment",
+        isPopular: true,
+        isSpecialOffer: false,
+        reviews: [
+          { user: "Nasim Akhtar", rating: 5, text: "100% genuine sealed box from Mukter Ali bhai." }
+        ]
+      },
+      {
+        id: "prod-3",
+        imageUrl: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=600&q=80",
+        name: "43-Inch 4K Ultra HD Frameless Smart Android LED TV",
+        price: 34999,
+        discountPrice: 23999,
+        description: "Cinema-grade 4K HDR10 display with 30W Dolby Atmos surround speakers, built-in Wi-Fi, YouTube, Prime Video & JioCinema.",
+        category: "Electronics",
+        sizes: ["Standard"],
+        colors: ["Glossy Black"],
+        specifications: "3840x2160 4K UHD, Quad-Core Processor, 3 HDMI, 2 USB Ports",
+        packSize: "1 TV Unit + Wall Mount Kit",
+        quantityPerPack: 1,
+        stock: 4,
+        weight: "7.4 kg",
+        deliveryInfo: "2-Day Delivery + Free Wall Installation in Malda",
+        offerDetails: "Today's Flash Deal - Save ₹11,000",
+        isPopular: true,
+        isSpecialOffer: true,
+        reviews: [
+          { user: "Priya Saha", rating: 5, text: "Picture clarity and sound are superb!" }
+        ]
+      },
+      {
+        id: "prod-4",
+        imageUrl: "https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?auto=format&fit=crop&w=600&q=80",
+        name: "Men's Royal Festive Pure Cotton Kurta Pyjama Set",
+        price: 2199,
+        discountPrice: 1099,
+        description: "Handcrafted breathable cotton kurta with contrast Mandarin collar, tailored for weddings, Eid, Puja, and family celebrations.",
+        category: "Men's Fashion",
+        sizes: ["S", "M", "L", "XL", "XXL"],
+        colors: ["Bright Red", "Mustard Yellow", "Pure White"],
+        specifications: "100% Pure Combed Cotton, Colorfast Guarantee",
+        packSize: "1 Kurta + 1 Pyjama",
+        quantityPerPack: 2,
+        stock: 28,
+        weight: "430 g",
+        deliveryInfo: "Delivered within 2 Days",
+        offerDetails: "Buy 1 Get 1 Offer Eligible",
+        isPopular: false,
+        isSpecialOffer: true,
+        reviews: [
+          { user: "Ariful Islam", rating: 5, text: "Fabric is very soft and fitting is exact." }
+        ]
+      },
+      {
+        id: "prod-5",
+        imageUrl: "https://images.unsplash.com/photo-1585515320310-259814833e62?auto=format&fit=crop&w=600&q=80",
+        name: "750W Heavy-Duty Copper Motor Mixer Grinder (3 Jars)",
+        price: 4999,
+        discountPrice: 2999,
+        description: "High-torque motor engineered for effortless spice, turmeric, and batter grinding with stainless steel jars and overload protection.",
+        category: "Home Appliances",
+        sizes: ["Standard"],
+        colors: ["Red & White", "Yellow & Black"],
+        specifications: "750W Pure Copper Winding, 3 SS Jars, 2-Year Warranty",
+        packSize: "1 Box (Main Unit + 3 Jars)",
+        quantityPerPack: 4,
+        stock: 15,
+        weight: "3.5 kg",
+        deliveryInfo: "2-Day Fast Home Delivery",
+        offerDetails: "Flat 40% OFF Special Kitchen Offer",
+        isPopular: true,
+        isSpecialOffer: true,
+        reviews: []
+      },
+      {
+        id: "prod-6",
+        imageUrl: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=600&q=80",
+        name: "65W SuperVOOC / PD Fast Charger + Braided Type-C Cable",
+        price: 1599,
+        discountPrice: 699,
+        description: "Charges smartphones from 0% to 70% in 25 minutes with smart temperature and surge protection.",
+        category: "Mobile Accessories",
+        sizes: ["Standard"],
+        colors: ["White", "Yellow"],
+        specifications: "65W GaN Tech, BIS Certified, 1.2m Nylon Braided Cable",
+        packSize: "1 Adapter + 1 Cable",
+        quantityPerPack: 2,
+        stock: 40,
+        weight: "145 g",
+        deliveryInfo: "2-Day Delivery",
+        offerDetails: "56% OFF Limited Time Deal",
+        isPopular: false,
+        isSpecialOffer: false,
+        reviews: []
+      },
+      {
+        id: "prod-7",
+        imageUrl: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80",
+        name: "JAMS BassBoost Wireless Over-Ear Bluetooth Headphones",
+        price: 2999,
+        discountPrice: 1499,
+        description: "40-hour battery backup, deep extra bass drivers, soft memory-foam ear cushions, and built-in HD calling mic.",
+        category: "Mobile Accessories",
+        sizes: ["Standard"],
+        colors: ["Red", "Yellow", "White"],
+        specifications: "Bluetooth 5.3, 40mm Neodymium Drivers, Type-C Fast Charge",
+        packSize: "1 Retail Box",
+        quantityPerPack: 1,
+        stock: 19,
+        weight: "210 g",
+        deliveryInfo: "2-Day Delivery in Malda",
+        offerDetails: "50% OFF Festival Discount",
+        isPopular: true,
+        isSpecialOffer: true,
+        reviews: []
+      },
+      {
+        id: "prod-8",
+        imageUrl: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80",
+        name: "Premium Malda Gobindobhog Aromatic Rice (5 kg Pack)",
+        price: 750,
+        discountPrice: 599,
+        description: "Freshly harvested aged aromatic Gobindobhog rice from West Bengal, ideal for pulao, khichuri, and payesh.",
+        category: "Grocery",
+        sizes: ["M", "L", "XL"],
+        colors: ["Natural White"],
+        specifications: "100% Sortex Cleaned, Hygienically Packed",
+        packSize: "5 kg Sealed Bag",
+        quantityPerPack: 1,
+        stock: 50,
+        weight: "5 kg",
+        deliveryInfo: "Same/Next-Day Grocery Delivery in Gazole",
+        offerDetails: "Save ₹151 on Family Pack",
+        isPopular: false,
+        isSpecialOffer: true,
+        reviews: []
+      }
+    ];
+
+    const DEFAULT_VIDEOS = [
+      {
+        id: "vid-1",
+        title: "JAMS 1500W DJ Bass Amplifier Live Demo & Festival Sale!",
+        description: "Watch our flagship 1500W DJ Amplifier in action. Available now at Ramnagar, Gazole with 2-day doorstep delivery.",
+        videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+        linkedProductId: "prod-1"
+      },
+      {
+        id: "vid-2",
+        title: "43-Inch 4K Smart Android TV Mega Discount Offer",
+        description: "Upgrade your home entertainment with crystal-clear 4K UHD & Dolby Audio from JAMS ELECTRONICS.",
+        videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+        linkedProductId: "prod-3"
+      }
+    ];
+
+    const DEFAULT_OFFERS = [
+      { id: "off-1", category: "Flash Sales", title: "Super Electronics Flash Sale", oldPrice: 16999, newPrice: 12499, discountPct: 26, code: "JAMS26", bannerText: "Limited Stock • Ends Tonight!" },
+      { id: "off-2", category: "Buy One Get One Offers", title: "Festive Fashion BOGO Bonanza", oldPrice: 2199, newPrice: 1099, discountPct: 50, code: "BOGO50", bannerText: "Buy 1 Get 1 Free on Ethnic & Casual Wear" },
+      { id: "off-3", category: "Festival Offers", title: "Malda Grand Celebration Deal", oldPrice: 34999, newPrice: 23999, discountPct: 31, code: "MALDA500", bannerText: "Extra ₹500 Instant Coupon Discount" },
+      { id: "off-4", category: "Today's Deals", title: "UPI Instant Cashback Offer", oldPrice: 1599, newPrice: 699, discountPct: 56, code: "UPI10", bannerText: "Pay via PhonePe / GPay / Paytm UPI" }
+    ];
+
+    // Load or initialize persistent state from localStorage
+    function loadState() {
+      const saved = localStorage.getItem('jams_electronics_state_v1');
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {}
+      }
+      return {
+        products: DEFAULT_PRODUCTS,
+        videoAds: DEFAULT_VIDEOS,
+        offers: DEFAULT_OFFERS,
+        cart: [],
+        wishlist: ["prod-1", "prod-3"],
+        recentlyViewed: ["prod-1", "prod-2"],
+        currentUser: {
+          uid: "cust-rahul",
+          name: "Rahul Mondal",
+          mobile: "9832145670",
+          email: "rahul.gazole@example.com",
+          address: "Ramnagar, Near Gazole Bus Stand, Malda, West Bengal",
+          pinCode: "732124",
+          savedAddresses: [
+            { id: "addr-1", label: "Home (Ramnagar)", address: "Ramnagar, Near Gazole Bus Stand, Malda", pinCode: "732124" }
+          ],
+          role: "customer" // 'customer' | 'admin'
+        },
+        orders: [
+          {
+            id: "ORD-78241",
+            customerId: "cust-rahul",
+            customerName: "Rahul Mondal",
+            customerMobile: "9832145670",
+            address: "Ramnagar, Near Gazole Bus Stand, Malda",
+            pinCode: "732124",
+            items: [
+              {
+                productId: "prod-1",
+                name: "JAMS Pro 1500W Dual-Channel DJ Bass Amplifier",
+                image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=600&q=80",
+                size: "Standard",
+                color: "Crimson Red",
+                qty: 1,
+                packDetails: "1 Heavy Master Box (1 pc)",
+                price: 12499
+              }
+            ],
+            deliveryCharge: 0,
+            totalAmount: 12499,
+            paymentMethod: "UPI Payment",
+            paymentStatus: "Paid",
+            orderStatus: "Delivered",
+            orderDate: Date.now() - 86400000,
+            expectedDelivery: "Delivered",
+            // Delivered 50 minutes ago so customer can actively test the 3-hour return timer!
+            deliveredAt: Date.now() - (50 * 60 * 1000),
+            returnRequest: null
+          }
+        ],
+        notifications: [
+          { id: 1, title: "Welcome to JAMS ELECTRONICS!", msg: "Fast 2-day delivery now live across Gazole & Malda.", time: "Just now" },
+          { id: 2, title: "Flash Sale Active!", msg: "Use coupon code JAMS26 for instant savings.", time: "1 hr ago" },
+          { id: 3, title: "Order #ORD-78241 Delivered", msg: "Your 3-hour standard return window is active.", time: "50 mins ago" }
+        ]
+      };
+    }
+
+    let appData = loadState();
+    let uiState = {
+      activeTab: "home",
+      adminTab: "orders",
+      lang: "en",
+      searchQuery: "",
+      selectedCategory: "All",
+      appliedCoupon: null
+    };
+
+    function saveState() {
+      localStorage.setItem('jams_electronics_state_v1', JSON.stringify(appData));
+    }
+
+    function isAdmin() {
+      return appData.currentUser && appData.currentUser.role === "admin";
+    }
+
+    // =========================================================================
+    // 3. UI HELPERS (TOASTS, NAVIGATION, TRANSLATIONS, ROLE SYNC)
+    // =========================================================================
+    function showToast(msg, type = "success") {
+      const container = document.getElementById("toast-container");
+      const el = document.createElement("div");
+      const colors = type === "error"
+        ? "bg-red-700 text-white border-white"
+        : "bg-yellow-400 text-red-950 border-red-600";
+      el.className = `${colors} border-2 px-4 py-3 rounded-2xl shadow-2xl font-black text-xs flex items-center justify-between transition transform`;
+      el.innerHTML = `<span>${msg}</span>`;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = "0";
+        setTimeout(() => el.remove(), 300);
+      }, 2800);
+    }
+
+    function t(key) {
+      return (I18N[uiState.lang] && I18N[uiState.lang][key]) || I18N.en[key] || key;
+    }
+
+    function setLanguage(lang) {
+      uiState.lang = lang;
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        el.textContent = t(el.getAttribute("data-i18n"));
+      });
+      renderApp();
+      showToast(`Language switched to ${lang === 'bn' ? 'বাংলা' : lang === 'hi' ? 'हिन्दी' : 'English'}`);
+    }
+
+    function syncHeaderSecurity() {
+      const plusBtn = document.getElementById("header-admin-plus");
+      const roleLabel = document.getElementById("header-role-label");
+      const rolePill = document.getElementById("header-role-pill");
+
+      if (isAdmin()) {
+        plusBtn.classList.remove("hidden");
+        roleLabel.textContent = "Admin: Mukter Ali";
+        rolePill.className = "bg-yellow-400 text-red-950 px-2.5 py-1.5 rounded-xl text-[11px] font-black border border-white flex items-center gap-1 shadow";
+      } else {
+        plusBtn.classList.add("hidden");
+        roleLabel.textContent = appData.currentUser ? appData.currentUser.name.split(" ")[0] : "Customer";
+        rolePill.className = "bg-white/15 hover:bg-white/25 px-2.5 py-1.5 rounded-xl text-[11px] font-bold border border-white/30 flex items-center gap-1";
+      }
+
+      const cartQty = appData.cart.reduce((sum, item) => sum + item.qty, 0);
+      const badge = document.getElementById("cart-count-badge");
+      badge.textContent = cartQty;
+      if (cartQty > 0) badge.classList.remove("hidden");
+      else badge.classList.add("hidden");
+
+      document.getElementById("notif-badge").textContent = appData.notifications.length;
+    }
+
+    function navigateTo(tab) {
+      uiState.activeTab = tab;
+      document.querySelectorAll(".nav-tab").forEach(btn => {
+        if (btn.dataset.tab === tab) {
+          btn.classList.remove("text-gray-500", "font-semibold");
+          btn.classList.add("text-red-600", "font-black");
+        } else {
+          btn.classList.add("text-gray-500", "font-semibold");
+          btn.classList.remove("text-red-600", "font-black");
+        }
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      renderApp();
+    }
+
+    function handleSearch(query) {
+      uiState.searchQuery = query.trim().toLowerCase();
+      document.getElementById("desktop-search").value = query;
+      document.getElementById("mobile-search").value = query;
+      if (uiState.activeTab !== "home" && uiState.activeTab !== "categories") {
+        navigateTo("home");
+      } else {
+        renderApp();
+      }
+    }
+
+    function toggleHelplineMenu() {
+      document.getElementById("helpline-menu").classList.toggle("hidden");
+    }
+
+    function openModal(html) {
+      document.getElementById("modal-card").innerHTML = html;
+      document.getElementById("modal-overlay").classList.remove("hidden");
+      lucide.createIcons();
+    }
+
+    function closeModal() {
+      document.getElementById("modal-overlay").classList.add("hidden");
+    }
+
+    // =========================================================================
+    // 4. ADMIN & CUSTOMER AUTHENTICATION
+    // =========================================================================
+    function loginAsAdmin() {
+      const passInput = document.getElementById("admin-secret-input");
+      const val = passInput ? passInput.value.trim() : "";
+      if (val === STORE_INFO.adminPass) {
+        appData.currentUser = {
+          uid: "admin-mukter-ali",
+          name: "Mukter Ali",
+          mobile: "8509842589",
+          email: "mukterali@jamselectronics.com",
+          address: "Ramnagar, Gazole, Malda, West Bengal, India",
+          pinCode: "732124",
+          savedAddresses: [],
+          role: "admin"
+        };
+        saveState();
+        syncHeaderSecurity();
+        showToast("Authorized! Welcome Admin Mukter Ali.");
+        renderApp();
+      } else {
+        showToast("Incorrect Admin Password! Use 8509842589", "error");
+      }
+    }
+
+    function switchToCustomer(e) {
+      if (e) e.preventDefault();
+      const name = document.getElementById("cust-login-name")?.value.trim() || "Rahul Mondal";
+      const mobile = document.getElementById("cust-login-mobile")?.value.trim() || "9832145670";
+      appData.currentUser = {
+        uid: "cust-" + mobile,
+        name,
+        mobile,
+        email: appData.currentUser?.email || "customer@jamselectronics.com",
+        address: appData.currentUser?.address || "Ramnagar, Gazole, Malda, West Bengal",
+        pinCode: appData.currentUser?.pinCode || "732124",
+        savedAddresses: appData.currentUser?.savedAddresses || [
+          { id: "addr-1", label: "Home", address: "Ramnagar, Gazole, Malda", pinCode: "732124" }
+        ],
+        role: "customer"
+      };
+      saveState();
+      syncHeaderSecurity();
+      showToast(`Logged in as Customer: ${name}`);
+      renderApp();
+    }
+
+    // =========================================================================
+    // 5. ADMIN-ONLY 15-FIELD PRODUCT UPLOAD & EDIT MODAL
+    // =========================================================================
+    function openAdminProductModal(productId = null) {
+      if (!isAdmin()) {
+        showToast("Access Denied: Only Admin Mukter Ali can upload or edit products.", "error");
+        return;
+      }
+      const p = productId ? appData.products.find(item => item.id === productId) : null;
+
+      openModal(`
+        <div class="bg-red-600 px-5 py-4 text-white flex items-center justify-between shrink-0">
+          <div>
+            <h3 class="font-black text-base sm:text-lg uppercase text-yellow-300">
+              ${p ? "Edit Product (Admin Control)" : "Admin Product Upload (+)"}
+            </h3>
+            <p class="text-[11px] text-white/90 font-semibold">Authorized Admin: Mukter Ali • Complete 15-Field Form</p>
+          </div>
+          <button onclick="closeModal()" class="p-1.5 bg-red-700 hover:bg-red-800 rounded-full">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <form onsubmit="submitAdminProduct(event, '${p ? p.id : ""}')" class="p-5 overflow-y-auto space-y-3.5 text-xs">
+          <!-- 1. Upload Product Image -->
+          <div class="bg-yellow-50 border-2 border-dashed border-red-500 rounded-2xl p-3">
+            <label class="block font-black text-red-700 uppercase mb-1">1. Upload Product Image (Device File or URL) *</label>
+            <input type="file" accept="image/*" onchange="handleAdminImageFile(this)" class="block w-full text-xs text-gray-700 mb-2" />
+            <input type="text" id="f-img" value="${p ? p.imageUrl : 'https://images.unsplash.com/photo-1526738549149-8e07eca6c147?auto=format&fit=crop&w=600&q=80'}" required placeholder="Image URL or uploaded data..." class="w-full p-2 border border-gray-300 rounded-xl bg-white" />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- 2. Product Name -->
+            <div>
+              <label class="block font-black text-red-700 uppercase mb-1">2. Product Name *</label>
+              <input type="text" id="f-name" value="${p ? p.name : ''}" required placeholder="e.g. JBL PartyBox Speaker" class="w-full p-2.5 border-2 border-gray-300 rounded-xl font-bold" />
+            </div>
+
+            <!-- 6. Product Category -->
+            <div>
+              <label class="block font-black text-red-700 uppercase mb-1">6. Product Category (All 20) *</label>
+              <select id="f-cat" class="w-full p-2.5 border-2 border-gray-300 rounded-xl font-bold bg-white">
+                ${ALL_20_CATEGORIES.map(c => `<option value="${c.name}" ${p && p.category === c.name ? 'selected' : ''}>${c.name}</option>`).join('')}
+              </select>
+            </div>
+
+            <!-- 3. Product Price -->
+            <div>
+              <label class="block font-black text-red-700 uppercase mb-1">3. Product Price (MRP ₹) *</label>
+              <input type="number" id="f-price" value="${p ? p.price : ''}" required min="1" placeholder="e.g. 4999" class="w-full p-2.5 border-2 border-gray-300 rounded-xl font-bold" />
+            </div>
+
+            <!-- 4. Discount Price -->
+            <div>
+              <label class="block font-black text-red-700 uppercase mb-1">4. Discount Price (Selling ₹) *</label>
+              <input type="number" id="f-disc" value="${p ? p.discountPrice : ''}" required min="1" placeholder="e.g. 3499" class="w-full p-2.5 border-2 border-gray-300 rounded-xl font-bold" />
+            </div>
+          </div>
+
+          <!-- 5. Product Description -->
+          <div>
+            <label class="block font-black text-red-700 uppercase mb-1">5. Product Description *</label>
+            <textarea id="f-desc" rows="2" required placeholder="Enter detailed product description..." class="w-full p-2.5 border-2 border-gray-300 rounded-xl">${p ? p.description : ''}</textarea>
+          </div>
+
+          <!-- 7. Available Sizes (S, M, L, XL, XXL) -->
+          <div>
+            <label class="block font-black text-red-700 uppercase mb-1">7. Available Sizes (S, M, L, XL, XXL)</label>
+            <div class="flex flex-wrap gap-2">
+              ${["S", "M", "L", "XL", "XXL", "Standard"].map(sz => {
+                const isChecked = p ? p.sizes.includes(sz) : (sz === "M" || sz === "L" || sz === "Standard");
+                return `
+                  <label class="inline-flex items-center gap-1.5 bg-yellow-50 border border-yellow-400 px-3 py-1.5 rounded-xl font-bold cursor-pointer">
+                    <input type="checkbox" name="f-sizes" value="${sz}" ${isChecked ? 'checked' : ''} class="accent-red-600" />
+                    <span>${sz}</span>
+                  </label>
+                `;
+              }).join('')}
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- 8. Available Colours -->
+            <div>
+              <label class="block font-black text-red-700 uppercase mb-1">8. Available Colours *</label>
+              <input type="text" id="f-colors" value="${p ? p.colors.join(', ') : 'Red, Yellow, White'}" required class="w-full p-2.5 border-2 border-gray-300 rounded-xl font-bold" />
+            </div>
+
+            <!-- 9. Product Quality or Specifications -->
+            <div>
+              <label class="block font-black text-red-700 uppercase mb-1">9. Product Quality / Specifications *</label>
+              <input type="text" id="f-specs" value="${p ? p.specifications : '100% Original Quality, Brand Warranty'}" required class="w-full p-2.5 border-2 border-gray-300 rounded-xl" />
+            </div>
+
+            <!-- 10. Pack Size -->
+            <div>
+              <label class="block font-black text-red-700 uppercase mb-1">10. Pack Size *</label>
+              <input type="text" id="f-pack" value="${p ? p.packSize : '1 Retail Box'}" required class="w-full p-2.5 border-2 border-gray-300 rounded-xl" />
+            </div>
+
+            <!-- 11. Quantity Per Pack -->
+            <div>
+              <label class="block font-black text-red-700 uppercase mb-1">11. Quantity Per Pack *</label>
+              <input type="number" id="f-qtypack" value="${p ? p.quantityPerPack : 1}" required min="1" class="w-full p-2.5 border-2 border-gray-300 rounded-xl font-bold" />
+            </div>
+
+            <!-- 12. Available Stock -->
+            <div>
+              <label class="block font-black text-red-700 uppercase mb-1">12. Available Stock *</label>
+              <input type="number" id="f-stock" value="${p ? p.stock : 25}" required min="0" class="w-full p-2.5 border-2 border-gray-300 rounded-xl font-bold" />
+            </div>
+
+            <!-- 13. Product Weight (Optional) -->
+            <div>
+              <label class="block font-black text-red-700 uppercase mb-1">13. Product Weight (Optional)</label>
+              <input type="text" id="f-weight" value="${p ? (p.weight || '') : '500 g'}" placeholder="e.g. 500 g or 2.5 kg" class="w-full p-2.5 border-2 border-gray-300 rounded-xl" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- 14. Delivery Information -->
+            <div>
+              <label class="block font-black text-red-700 uppercase mb-1">14. Delivery Information *</label>
+              <input type="text" id="f-delivery" value="${p ? p.deliveryInfo : 'Delivered within 2 Days in Gazole & Malda'}" required class="w-full p-2.5 border-2 border-gray-300 rounded-xl font-semibold" />
+            </div>
+
+            <!-- 15. Offer Details -->
+            <div>
+              <label class="block font-black text-red-700 uppercase mb-1">15. Offer Details</label>
+              <input type="text" id="f-offer" value="${p ? (p.offerDetails || '') : 'Special Store Launch Discount'}" placeholder="e.g. Free Gift / Extra 10% Off" class="w-full p-2.5 border-2 border-gray-300 rounded-xl" />
+            </div>
+          </div>
+
+          <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-yellow-300 border-2 border-yellow-400 py-3.5 rounded-2xl font-black text-sm uppercase tracking-wider shadow-xl transition transform active:scale-95">
+            Confirm Upload
+          </button>
+        </form>
+      `);
+    }
+
+    function handleAdminImageFile(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          document.getElementById("f-img").value = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    function submitAdminProduct(e, editId) {
+      e.preventDefault();
+      if (!isAdmin()) return;
+
+      const sizes = Array.from(document.querySelectorAll('input[name="f-sizes"]:checked')).map(cb => cb.value);
+      const productObj = {
+        id: editId || "prod-" + Date.now(),
+        imageUrl: document.getElementById("f-img").value.trim(),
+        name: document.getElementById("f-name").value.trim(),
+        price: Number(document.getElementById("f-price").value),
+        discountPrice: Number(document.getElementById("f-disc").value),
+        description: document.getElementById("f-desc").value.trim(),
+        category: document.getElementById("f-cat").value,
+        sizes: sizes.length ? sizes : ["Standard"],
+        colors: document.getElementById("f-colors").value.split(",").map(c => c.trim()).filter(Boolean),
+        specifications: document.getElementById("f-specs").value.trim(),
+        packSize: document.getElementById("f-pack").value.trim(),
+        quantityPerPack: Number(document.getElementById("f-qtypack").value),
+        stock: Number(document.getElementById("f-stock").value),
+        weight: document.getElementById("f-weight").value.trim(),
+        deliveryInfo: document.getElementById("f-delivery").value.trim(),
+        offerDetails: document.getElementById("f-offer").value.trim(),
+        isPopular: true,
+        isSpecialOffer: true,
+        reviews: editId ? (appData.products.find(x => x.id === editId)?.reviews || []) : []
+      };
+
+      if (editId) {
+        const idx = appData.products.findIndex(item => item.id === editId);
+        if (idx !== -1) appData.products[idx] = productObj;
+        showToast("Product Updated Successfully!");
+      } else {
+        appData.products.unshift(productObj);
+        appData.notifications.unshift({
+          id: Date.now(),
+          title: "New Product Launched!",
+          msg: `${productObj.name} added to ${productObj.category}.`,
+          time: "Just now"
+        });
+        showToast("Product Uploaded to Home Page & Category!");
+      }
+
+      saveState();
+      syncHeaderSecurity();
+      closeModal();
+      renderApp();
+    }
+
+    // =========================================================================
+    // 6. PRODUCT DETAILS, REVIEWS, CART & CHECKOUT
+    // =========================================================================
+    function openProductDetails(productId) {
+      const p = appData.products.find(item => item.id === productId);
+      if (!p) return;
+
+      // Track Recently Viewed
+      appData.recentlyViewed = [p.id, ...appData.recentlyViewed.filter(id => id !== p.id)].slice(0, 6);
+      saveState();
+
+      const discPct = p.price > p.discountPrice ? Math.round(((p.price - p.discountPrice) / p.price) * 100) : 0;
+      const isWish = appData.wishlist.includes(p.id);
+
+      openModal(`
+        <div class="bg-red-600 px-5 py-3.5 text-white flex items-center justify-between shrink-0">
+          <span class="font-black text-xs sm:text-sm uppercase tracking-wider text-yellow-300">${p.category}</span>
+          <button onclick="closeModal()" class="p-1.5 bg-red-700 hover:bg-red-800 rounded-full">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <div class="p-5 overflow-y-auto space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div class="relative rounded-2xl overflow-hidden border-2 border-yellow-400 bg-gray-50 aspect-square">
+              <img src="${p.imageUrl}" alt="${p.name}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/500x500/dc2626/facc15?text=JAMS+ELECTRONICS'" />
+              ${discPct > 0 ? `<span class="absolute top-3 left-3 bg-red-600 text-yellow-300 font-black text-xs px-3 py-1 rounded-full border border-yellow-400 shadow">${discPct}% OFF</span>` : ''}
+              <button onclick="toggleWishlist('${p.id}')" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white shadow-md flex items-center justify-center ${isWish ? 'text-red-600' : 'text-gray-400'}">
+                <i data-lucide="heart" class="w-5 h-5 ${isWish ? 'fill-current' : ''}"></i>
+              </button>
+            </div>
+
+            <div class="space-y-3">
+              <h2 class="font-black text-lg sm:text-xl text-gray-900 leading-snug">${p.name}</h2>
+
+              <div class="bg-yellow-50 border-2 border-yellow-400 rounded-2xl p-3">
+                <div class="flex items-baseline gap-2.5">
+                  <span class="text-2xl font-black text-red-600">₹${p.discountPrice.toLocaleString('en-IN')}</span>
+                  ${p.price > p.discountPrice ? `<span class="text-sm text-gray-400 line-through font-bold">₹${p.price.toLocaleString('en-IN')}</span>` : ''}
+                </div>
+                ${p.offerDetails ? `<p class="text-xs font-bold text-red-900 mt-1">🎁 ${p.offerDetails}</p>` : ''}
+              </div>
+
+              <!-- Required Size Selection -->
+              <div>
+                <label class="block text-xs font-black text-gray-700 uppercase mb-1">Select Size *</label>
+                <div class="flex flex-wrap gap-2">
+                  ${p.sizes.map((sz, i) => `
+                    <button type="button" onclick="pickDetailSize('${sz}', this)" class="det-size-pill px-3.5 py-1.5 rounded-xl text-xs font-black border-2 transition ${i === 0 ? 'bg-red-600 text-yellow-300 border-red-600' : 'bg-white text-gray-700 border-gray-300'}">${sz}</button>
+                  `).join('')}
+                </div>
+              </div>
+
+              <!-- Required Colour Selection -->
+              <div>
+                <label class="block text-xs font-black text-gray-700 uppercase mb-1">Select Colour *</label>
+                <div class="flex flex-wrap gap-2">
+                  ${p.colors.map((col, i) => `
+                    <button type="button" onclick="pickDetailColor('${col}', this)" class="det-color-pill px-3 py-1.5 rounded-xl text-xs font-bold border-2 transition ${i === 0 ? 'bg-yellow-400 text-red-950 border-red-600' : 'bg-white text-gray-700 border-gray-300'}">${col}</button>
+                  `).join('')}
+                </div>
+              </div>
+
+              <!-- Quantity & Stock -->
+              <div class="flex items-center justify-between pt-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-black text-gray-700">Quantity:</span>
+                  <input type="number" id="det-qty-input" value="1" min="1" max="${Math.max(1, p.stock)}" class="w-16 border-2 border-gray-300 rounded-xl px-2.5 py-1 text-center font-black text-sm" />
+                </div>
+                <span class="text-xs font-black ${p.stock > 0 ? 'text-green-700' : 'text-red-600'}">
+                  ${p.stock > 0 ? `Available Stock: ${p.stock}` : 'Out of Stock'}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Specifications & Pack Details -->
+          <div class="bg-gray-50 rounded-2xl p-4 border border-gray-200 space-y-1.5 text-xs">
+            <p><strong class="text-red-700">Description:</strong> ${p.description}</p>
+            <p><strong class="text-red-700">Quality & Specifications:</strong> ${p.specifications}</p>
+            <p><strong class="text-red-700">Pack Quantity:</strong> ${p.packSize} (${p.quantityPerPack} items/pack) ${p.weight ? `• Weight: ${p.weight}` : ''}</p>
+            <p class="flex items-center gap-1.5 text-green-700 font-bold pt-1">
+              <i data-lucide="truck" class="w-4 h-4"></i> ${p.deliveryInfo}
+            </p>
+          </div>
+
+          <!-- Add to Cart & Buy Now Buttons -->
+          <div class="grid grid-cols-2 gap-3">
+            <button onclick="confirmDetailAdd('${p.id}', false)" class="bg-yellow-400 hover:bg-yellow-500 text-red-950 border-2 border-red-600 py-3.5 rounded-2xl font-black text-sm flex items-center justify-center gap-2 shadow-md transition active:scale-95">
+              <i data-lucide="shopping-cart" class="w-4 h-4"></i> ${t('add_cart')}
+            </button>
+            <button onclick="confirmDetailAdd('${p.id}', true)" class="bg-red-600 hover:bg-red-700 text-yellow-300 border-2 border-yellow-400 py-3.5 rounded-2xl font-black text-sm flex items-center justify-center gap-2 shadow-lg transition active:scale-95">
+              <i data-lucide="zap" class="w-4 h-4"></i> ${t('buy_now')}
+            </button>
+          </div>
+
+          <!-- Customer Reviews Section -->
+          <div class="border-t border-gray-200 pt-4 space-y-2.5 text-xs">
+            <h4 class="font-black text-sm text-gray-900">Customer Ratings & Reviews (${p.reviews ? p.reviews.length : 0})</h4>
+            <div class="space-y-2">
+              ${(p.reviews && p.reviews.length > 0) ? p.reviews.map(r => `
+                <div class="bg-yellow-50/70 p-2.5 rounded-xl border border-yellow-200">
+                  <div class="flex justify-between font-bold text-red-800">
+                    <span>${r.user}</span>
+                    <span>${"★".repeat(r.rating)}</span>
+                  </div>
+                  <p class="text-gray-700 mt-0.5">${r.text}</p>
+                </div>
+              `).join('') : '<p class="text-gray-400">No reviews yet. Be the first to review after purchasing!</p>'}
+            </div>
+            <form onsubmit="addProductReview(event, '${p.id}')" class="flex gap-2 pt-1">
+              <input type="text" id="rev-text" required placeholder="Write a product review..." class="flex-1 p-2 border border-gray-300 rounded-xl" />
+              <button type="submit" class="bg-red-600 text-yellow-300 px-3.5 py-2 rounded-xl font-black">Post</button>
+            </form>
+          </div>
+        </div>
+      `);
+
+      window._detSize = p.sizes[0] || "Standard";
+      window._detColor = p.colors[0] || "Default";
+    }
+
+    function pickDetailSize(sz, btn) {
+      window._detSize = sz;
+      document.querySelectorAll(".det-size-pill").forEach(b => b.className = "det-size-pill px-3.5 py-1.5 rounded-xl text-xs font-black border-2 transition bg-white text-gray-700 border-gray-300");
+      btn.className = "det-size-pill px-3.5 py-1.5 rounded-xl text-xs font-black border-2 transition bg-red-600 text-yellow-300 border-red-600";
+    }
+
+    function pickDetailColor(col, btn) {
+      window._detColor = col;
+      document.querySelectorAll(".det-color-pill").forEach(b => b.className = "det-color-pill px-3 py-1.5 rounded-xl text-xs font-bold border-2 transition bg-white text-gray-700 border-gray-300");
+      btn.className = "det-color-pill px-3 py-1.5 rounded-xl text-xs font-bold border-2 transition bg-yellow-400 text-red-950 border-red-600";
+    }
+
+    function confirmDetailAdd(productId, goCheckout) {
+      const qty = parseInt(document.getElementById("det-qty-input").value) || 1;
+      addToCart(productId, window._detSize, window._detColor, qty, goCheckout);
+    }
+
+    function addProductReview(e, productId) {
+      e.preventDefault();
+      const p = appData.products.find(x => x.id === productId);
+      if (!p) return;
+      if (!p.reviews) p.reviews = [];
+      p.reviews.unshift({
+        user: appData.currentUser.name,
+        rating: 5,
+        text: document.getElementById("rev-text").value.trim()
+      });
+      saveState();
+      showToast("Review Published!");
+      openProductDetails(productId);
+    }
+
+    function addToCart(productId, size = null, color = null, qty = 1, goCheckout = false) {
+      const p = appData.products.find(item => item.id === productId);
+      if (!p) return;
+      if (p.stock <= 0) {
+        showToast("Sorry, this item is currently out of stock!", "error");
+        return;
+      }
+
+      const chosenSize = size || p.sizes[0] || "Standard";
+      const chosenColor = color || p.colors[0] || "Default";
+      const existing = appData.cart.find(c => c.productId === p.id && c.size === chosenSize && c.color === chosenColor);
+
+      if (existing) {
+        existing.qty += qty;
+      } else {
+        appData.cart.push({
+          productId: p.id,
+          name: p.name,
+          image: p.imageUrl,
+          price: p.discountPrice,
+          size: chosenSize,
+          color: chosenColor,
+          packDetails: `${p.packSize} (${p.quantityPerPack} pcs)`,
+          qty
+        });
+      }
+
+      saveState();
+      syncHeaderSecurity();
+      closeModal();
+
+      if (goCheckout) {
+        navigateTo("cart");
+        openCheckoutModal();
+      } else {
+        showToast(`Added "${p.name}" to Cart!`);
+        renderApp();
+      }
+    }
+
+    function toggleWishlist(productId, e) {
+      if (e) e.stopPropagation();
+      if (appData.wishlist.includes(productId)) {
+        appData.wishlist = appData.wishlist.filter(id => id !== productId);
+        showToast("Removed from Wishlist");
+      } else {
+        appData.wishlist.push(productId);
+        showToast("Added to Wishlist!");
+      }
+      saveState();
+      renderApp();
+    }
+
+    function openCheckoutModal() {
+      if (appData.cart.length === 0) {
+        showToast("Your cart is empty!", "error");
+        return;
+      }
+      const subtotal = appData.cart.reduce((s, i) => s + (i.price * i.qty), 0);
+      const delivery = subtotal >= 999 ? 0 : 40;
+      const discount = uiState.appliedCoupon ? Math.round(subtotal * 0.1) : 0;
+      const finalTotal = Math.max(0, subtotal + delivery - discount);
+
+      openModal(`
+        <div class="bg-red-600 px-5 py-4 text-white flex items-center justify-between">
+          <h3 class="font-black text-base uppercase text-yellow-300">Order Checkout • JAMS ELECTRONICS</h3>
+          <button onclick="closeModal()" class="p-1 bg-red-700 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+
+        <form onsubmit="confirmPlaceOrder(event)" class="p-5 overflow-y-auto space-y-4 text-xs">
+          <div class="bg-yellow-50 border-2 border-yellow-400 p-3.5 rounded-2xl space-y-2.5">
+            <p class="font-black text-red-800 uppercase">Delivery Address (Target: 2-Day Delivery)</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <input type="text" id="ord-name" value="${appData.currentUser.name}" required placeholder="Full Name" class="p-2.5 border border-gray-300 rounded-xl bg-white font-bold" />
+              <input type="tel" id="ord-mobile" value="${appData.currentUser.mobile}" required placeholder="Mobile Number" class="p-2.5 border border-gray-300 rounded-xl bg-white font-bold" />
+            </div>
+            <input type="text" id="ord-addr" value="${appData.currentUser.address}" required placeholder="Full Delivery Address" class="w-full p-2.5 border border-gray-300 rounded-xl bg-white font-semibold" />
+            <input type="text" id="ord-pin" value="${appData.currentUser.pinCode}" required placeholder="PIN Code (e.g. 732124)" class="w-full p-2.5 border border-gray-300 rounded-xl bg-white font-bold" />
+          </div>
+
+          <div>
+            <p class="font-black text-gray-800 uppercase mb-2">Choose Payment Method:</p>
+            <div class="grid grid-cols-3 gap-2">
+              <label class="border-2 border-red-600 bg-red-50 p-2.5 rounded-xl text-center font-black text-red-900 cursor-pointer">
+                <input type="radio" name="pay-opt" value="Cash on Delivery" checked class="accent-red-600 mb-1" /><br/>Cash on Delivery
+              </label>
+              <label class="border-2 border-gray-200 p-2.5 rounded-xl text-center font-bold text-gray-700 cursor-pointer">
+                <input type="radio" name="pay-opt" value="UPI Payment" class="accent-red-600 mb-1" /><br/>UPI (GPay/PhonePe)
+              </label>
+              <label class="border-2 border-gray-200 p-2.5 rounded-xl text-center font-bold text-gray-700 cursor-pointer">
+                <input type="radio" name="pay-opt" value="Online Payment" class="accent-red-600 mb-1" /><br/>Online Payment
+              </label>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 p-3.5 rounded-2xl border border-gray-200 space-y-1.5">
+            <div class="flex justify-between"><span>Items Subtotal:</span><span class="font-bold">₹${subtotal.toLocaleString('en-IN')}</span></div>
+            <div class="flex justify-between"><span>Delivery Charges:</span><span class="font-bold text-green-700">${delivery === 0 ? 'FREE' : '₹' + delivery}</span></div>
+            ${discount > 0 ? `<div class="flex justify-between text-green-700 font-bold"><span>Coupon Discount (${uiState.appliedCoupon}):</span><span>-₹${discount.toLocaleString('en-IN')}</span></div>` : ''}
+            <div class="flex justify-between text-base font-black text-red-600 pt-2 border-t border-gray-200">
+              <span>Total Amount:</span><span>₹${finalTotal.toLocaleString('en-IN')}</span>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-yellow-300 border-2 border-yellow-400 py-3.5 rounded-2xl font-black text-sm uppercase shadow-xl">
+            Place Order Now (₹${finalTotal.toLocaleString('en-IN')})
+          </button>
+        </form>
+      `);
+    }
+
+    function confirmPlaceOrder(e) {
+      e.preventDefault();
+      const payMethod = document.querySelector('input[name="pay-opt"]:checked').value;
+      const subtotal = appData.cart.reduce((s, i) => s + (i.price * i.qty), 0);
+      const delivery = subtotal >= 999 ? 0 : 40;
+      const discount = uiState.appliedCoupon ? Math.round(subtotal * 0.1) : 0;
+      const totalAmount = Math.max(0, subtotal + delivery - discount);
+
+      // Update product stock
+      appData.cart.forEach(item => {
+        const prod = appData.products.find(p => p.id === item.productId);
+        if (prod) prod.stock = Math.max(0, prod.stock - item.qty);
+      });
+
+      const orderId = "ORD-" + Math.floor(10000 + Math.random() * 90000);
+      const expectedDate = new Date(Date.now() + 2 * 86400000).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+
+      const newOrder = {
+        id: orderId,
+        customerId: appData.currentUser.uid,
+        customerName: document.getElementById("ord-name").value.trim(),
+        customerMobile: document.getElementById("ord-mobile").value.trim(),
+        address: document.getElementById("ord-addr").value.trim(),
+        pinCode: document.getElementById("ord-pin").value.trim(),
+        items: [...appData.cart],
+        deliveryCharge: delivery,
+        totalAmount,
+        paymentMethod: payMethod,
+        paymentStatus: payMethod === "Cash on Delivery" ? "Pending (COD)" : "Paid",
+        orderStatus: "Order Placed",
+        orderDate: Date.now(),
+        expectedDelivery: expectedDate,
+        deliveredAt: null,
+        returnRequest: null
+      };
+
+      appData.orders.unshift(newOrder);
+      appData.cart = [];
+      uiState.appliedCoupon = null;
+
+      appData.notifications.unshift({
+        id: Date.now(),
+        title: `New Order #${orderId}`,
+        msg: `Order placed by ${newOrder.customerName} (₹${totalAmount}).`,
+        time: "Just now"
+      });
+
+      saveState();
+      syncHeaderSecurity();
+      closeModal();
+      showToast(`Order #${orderId} Placed Successfully!`);
+      navigateTo("account");
+    }
+
+    // =========================================================================
+    // 7. RETURN REQUEST & 3-HOUR TIMER SYSTEM
+    // =========================================================================
+    function openReturnRequestModal(orderId, isStandardWindowExpired) {
+      const order = appData.orders.find(o => o.id === orderId);
+      if (!order) return;
+
+      openModal(`
+        <div class="bg-red-600 px-5 py-4 text-white flex items-center justify-between">
+          <h3 class="font-black text-base uppercase text-yellow-300">Return & Refund Request • #${order.id}</h3>
+          <button onclick="closeModal()" class="p-1 bg-red-700 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <form onsubmit="submitReturnClaim(event, '${order.id}')" class="p-5 space-y-4 text-xs">
+          ${isStandardWindowExpired ? `
+            <div class="bg-yellow-100 border-l-4 border-red-600 p-3 rounded-xl text-red-950 font-semibold">
+              <strong>Standard 3-Hour Return Timer Expired:</strong> Ordinary return requests are automatically disabled after 3 hours from delivery. However, your statutory consumer protection rights remain active for <strong>defective, damaged, or wrong items</strong>.
+            </div>
+          ` : `
+            <div class="bg-green-50 border-l-4 border-green-600 p-3 rounded-xl text-green-900 font-semibold">
+              <strong>Within 3-Hour Return Window:</strong> You can submit a standard or defect return request.
+            </div>
+          `}
+
+          <div>
+            <label class="block font-black text-red-700 uppercase mb-1">Return Reason *</label>
+            <select id="ret-reason-select" class="w-full p-2.5 border-2 border-gray-300 rounded-xl font-bold bg-white" required>
+              ${!isStandardWindowExpired ? `
+                <option value="Size / Fit Issue">Size / Fit Issue</option>
+                <option value="No Longer Needed (Within 3-Hour Window)">No Longer Needed (Within 3-Hour Window)</option>
+              ` : ""}
+              <option value="Defective / Not Working Product (Consumer Right)">Defective / Not Working Product (Mandatory Consumer Right)</option>
+              <option value="Damaged Product Delivered">Damaged Product Delivered</option>
+              <option value="Wrong Item Delivered">Wrong Item Delivered</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-black text-red-700 uppercase mb-1">Describe Issue *</label>
+            <textarea id="ret-desc-input" rows="2" required placeholder="Please describe the problem..." class="w-full p-2.5 border-2 border-gray-300 rounded-xl"></textarea>
+          </div>
+
+          <div>
+            <label class="block font-black text-red-700 uppercase mb-1">Supporting Product Photo (Optional)</label>
+            <input type="file" accept="image/*" class="w-full border border-gray-300 rounded-xl p-2 text-xs" />
+          </div>
+
+          <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-yellow-300 border-2 border-yellow-400 py-3.5 rounded-2xl font-black text-sm uppercase shadow-lg">
+            Submit Return Request
+          </button>
+        </form>
+      `);
+    }
+
+    function submitReturnClaim(e, orderId) {
+      e.preventDefault();
+      const order = appData.orders.find(o => o.id === orderId);
+      if (!order) return;
+
+      order.orderStatus = "Return Requested";
+      order.returnRequest = {
+        reason: document.getElementById("ret-reason-select").value,
+        notes: document.getElementById("ret-desc-input").value.trim(),
+        status: "Pending Admin Approval",
+        refundStatus: "Initiated",
+        requestedAt: Date.now()
+      };
+
+      saveState();
+      closeModal();
+      showToast("Return Request Sent to Admin Mukter Ali!");
+      renderApp();
+    }
+
+    function openNotificationsModal() {
+      openModal(`
+        <div class="bg-red-600 px-5 py-4 text-white flex items-center justify-between">
+          <h3 class="font-black text-base uppercase text-yellow-300">Notifications (${appData.notifications.length})</h3>
+          <button onclick="closeModal()" class="p-1 bg-red-700 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <div class="p-4 space-y-2.5 overflow-y-auto">
+          ${appData.notifications.map(n => `
+            <div class="p-3 rounded-2xl bg-yellow-50 border border-yellow-300">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-black text-xs text-red-700">${n.title}</span>
+                <span class="text-[10px] text-gray-500 font-bold">${n.time}</span>
+              </div>
+              <p class="text-xs text-gray-700">${n.msg}</p>
+            </div>
+          `).join('')}
+        </div>
+      `);
+    }
+
+    function openLegalModal(title, bodyText) {
+      openModal(`
+        <div class="bg-red-600 px-5 py-4 text-white flex items-center justify-between">
+          <h3 class="font-black text-base uppercase text-yellow-300">${title}</h3>
+          <button onclick="closeModal()" class="p-1 bg-red-700 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <div class="p-5 text-xs text-gray-700 space-y-3 leading-relaxed overflow-y-auto">
+          ${bodyText}
+        </div>
+      `);
+    }
+
+    // =========================================================================
+    // 8. TAB VIEWS (HOME, CATEGORIES, OFFERS, ACCOUNT, CART, ADMIN)
+    // =========================================================================
+    function renderProductCard(p) {
+      const disc = p.price > p.discountPrice ? Math.round(((p.price - p.discountPrice) / p.price) * 100) : 0;
+      const isWish = appData.wishlist.includes(p.id);
+
+      return `
+        <div onclick="openProductDetails('${p.id}')" class="bg-white rounded-2xl border-2 border-gray-100 hover:border-yellow-400 shadow-sm hover:shadow-xl transition cursor-pointer flex flex-col overflow-hidden group">
+          <div class="relative aspect-square bg-gray-50 overflow-hidden">
+            <img src="${p.imageUrl}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='https://placehold.co/400x400/dc2626/facc15?text=JAMS'" />
+            ${disc > 0 ? `<span class="absolute top-2 left-2 bg-red-600 text-yellow-300 text-[10px] font-black px-2 py-0.5 rounded-full border border-yellow-400 shadow">${disc}% OFF</span>` : ''}
+            <button onclick="toggleWishlist('${p.id}', event)" class="absolute top-2 right-2 w-7 h-7 rounded-full bg-white/95 shadow flex items-center justify-center ${isWish ? 'text-red-600' : 'text-gray-400'}">
+              <i data-lucide="heart" class="w-4 h-4 ${isWish ? 'fill-current' : ''}"></i>
+            </button>
+            <span class="absolute bottom-2 left-2 bg-white/95 text-red-700 text-[9px] font-black px-2 py-0.5 rounded-md border border-red-200 truncate max-w-[85%]">
+              ${p.category}
+            </span>
+          </div>
+
+          <div class="p-3 flex flex-col flex-1 justify-between">
+            <div>
+              <h4 class="font-bold text-gray-900 text-xs line-clamp-2 leading-snug mb-1 group-hover:text-red-600">${p.name}</h4>
+              <div class="flex items-center gap-1.5 mb-2">
+                <span class="bg-green-700 text-white text-[10px] font-black px-1.5 py-0.5 rounded">4.9 ★</span>
+                <span class="text-[10px] text-gray-400 font-semibold">(${p.reviews ? p.reviews.length + 14 : 14})</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex items-baseline gap-1.5 mb-2">
+                <span class="font-black text-red-600 text-sm">₹${p.discountPrice.toLocaleString('en-IN')}</span>
+                ${p.price > p.discountPrice ? `<span class="text-gray-400 text-[11px] line-through">₹${p.price.toLocaleString('en-IN')}</span>` : ''}
+              </div>
+
+              ${isAdmin() ? `
+                <div class="flex gap-1.5">
+                  <button onclick="event.stopPropagation(); openAdminProductModal('${p.id}')" class="flex-1 bg-yellow-400 text-red-950 border border-red-600 py-1.5 rounded-xl text-[11px] font-black">Edit</button>
+                  <button onclick="event.stopPropagation(); adminRemoveProduct('${p.id}')" class="flex-1 bg-red-600 text-white py-1.5 rounded-xl text-[11px] font-black">Delete</button>
+                </div>
+              ` : `
+                <div class="flex gap-1.5">
+                  <button onclick="event.stopPropagation(); addToCart('${p.id}')" class="flex-1 bg-yellow-400 hover:bg-yellow-500 text-red-950 border border-red-600 py-1.5 rounded-xl text-[11px] font-black flex items-center justify-center gap-1">
+                    <i data-lucide="shopping-cart" class="w-3 h-3"></i> Cart
+                  </button>
+                  <button onclick="event.stopPropagation(); addToCart('${p.id}', null, null, 1, true)" class="flex-1 bg-red-600 hover:bg-red-700 text-white py-1.5 rounded-xl text-[11px] font-black">
+                    Buy
+                  </button>
+                </div>
+              `}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderHomeView() {
+      const matched = appData.products.filter(p =>
+        p.name.toLowerCase().includes(uiState.searchQuery) ||
+        p.category.toLowerCase().includes(uiState.searchQuery)
+      );
+
+      return `
+        <div class="space-y-6">
+          <!-- Hero Welcome Banner -->
+          <div class="bg-gradient-to-r from-red-700 via-red-600 to-red-700 rounded-3xl p-5 sm:p-7 text-white border-4 border-yellow-400 shadow-xl">
+            <div class="max-w-2xl space-y-2.5">
+              <div class="inline-flex items-center gap-2 bg-yellow-400 text-red-950 text-[10px] sm:text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider shadow">
+                <span>Launch Target: 1 January 2027</span> • <span>Owner: Mukter Ali</span>
+              </div>
+              <h2 class="text-2xl sm:text-4xl font-black tracking-tight leading-tight">${t('welcome')}</h2>
+              <p class="text-xs sm:text-sm text-yellow-100 font-medium">${t('tagline')}</p>
+              <div class="pt-2 flex flex-wrap gap-2.5">
+                <button onclick="navigateTo('offers')" class="bg-yellow-400 hover:bg-yellow-300 text-red-950 px-5 py-2.5 rounded-xl font-black text-xs uppercase shadow-lg">
+                  Today's Attractive Offers
+                </button>
+                <button onclick="navigateTo('categories')" class="bg-white/15 hover:bg-white/25 text-white border border-white/40 px-4 py-2.5 rounded-xl font-bold text-xs">
+                  Browse All 20 Categories
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Categories Strip -->
+          <div>
+            <div class="flex items-center justify-between mb-2.5">
+              <h3 class="font-black text-base text-gray-900 flex items-center gap-2">
+                <span class="w-2 h-5 bg-red-600 rounded-full"></span> Product Categories
+              </h3>
+              <button onclick="navigateTo('categories')" class="text-xs font-black text-red-600 hover:underline">All 20 Categories →</button>
+            </div>
+            <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+              ${ALL_20_CATEGORIES.slice(0, 12).map(c => `
+                <button onclick="uiState.selectedCategory=\`${c.name}\`; navigateTo('categories')" class="shrink-0 bg-white hover:bg-yellow-400 text-gray-800 hover:text-red-950 border-2 border-yellow-400 px-3.5 py-2 rounded-2xl text-xs font-bold shadow-sm transition flex items-center gap-1.5">
+                  <i data-lucide="${c.icon}" class="w-3.5 h-3.5 text-red-600"></i>
+                  <span>${c.name}</span>
+                </button>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Promotional Video Advertisement Section -->
+          <div class="bg-red-600 rounded-3xl p-4 sm:p-5 border-4 border-yellow-400 shadow-xl">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2 text-yellow-300">
+                <i data-lucide="video" class="w-6 h-6"></i>
+                <h3 class="font-black text-sm sm:text-base uppercase">Product Video Advertisements</h3>
+              </div>
+              ${isAdmin() ? `<button onclick="openAdminVideoModal()" class="bg-yellow-400 text-red-950 px-3 py-1 rounded-xl text-xs font-black shadow">+ Upload Video Ad</button>` : ''}
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              ${appData.videoAds.map(v => `
+                <div class="bg-white rounded-2xl p-3 border-2 border-yellow-400 flex flex-col justify-between gap-2.5">
+                  <div class="aspect-video bg-black rounded-xl overflow-hidden">
+                    <video src="${v.videoUrl}" controls muted playsinline class="w-full h-full object-cover"></video>
+                  </div>
+                  <div>
+                    <h4 class="font-black text-sm text-gray-900">${v.title}</h4>
+                    <p class="text-xs text-gray-600 line-clamp-2 mt-0.5">${v.description}</p>
+                  </div>
+                  <div class="flex gap-2">
+                    <button onclick="openProductDetails('${v.linkedProductId}')" class="flex-1 bg-yellow-400 hover:bg-yellow-500 text-red-950 border border-red-600 py-2 rounded-xl font-black text-xs uppercase">
+                      Shop This Product →
+                    </button>
+                    ${isAdmin() ? `<button onclick="adminDeleteVideo('${v.id}')" class="bg-red-100 text-red-700 px-3 rounded-xl font-bold text-xs">Delete</button>` : ''}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Recommended & Latest Products -->
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="font-black text-base sm:text-lg text-gray-900 flex items-center gap-2">
+                <span class="w-2 h-5 bg-red-600 rounded-full"></span>
+                ${uiState.searchQuery ? `Search Results for "${uiState.searchQuery}"` : 'Recommended & Latest Products'}
+              </h3>
+              <span class="text-xs font-bold text-gray-500">${matched.length} Products</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+              ${matched.map(p => renderProductCard(p)).join('')}
+            </div>
+          </div>
+
+          <!-- Popular Products & Special Offers -->
+          <div class="bg-yellow-100 border-2 border-yellow-400 rounded-3xl p-4 sm:p-5">
+            <h3 class="font-black text-base text-red-800 uppercase mb-3 flex items-center gap-2">
+              <i data-lucide="flame" class="w-5 h-5 text-red-600"></i> Popular Products & Special Offers
+            </h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              ${appData.products.filter(p => p.isPopular || p.isSpecialOffer).slice(0, 4).map(p => renderProductCard(p)).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderCategoriesView() {
+      const cat = uiState.selectedCategory || "All";
+      const list = cat === "All" ? appData.products : appData.products.filter(p => p.category === cat);
+
+      return `
+        <div class="space-y-4">
+          <div class="bg-white p-4 rounded-3xl border-2 border-yellow-400 shadow-sm">
+            <h2 class="font-black text-lg text-red-700 mb-3">All 20 Product Categories</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2">
+              <button onclick="uiState.selectedCategory='All'; renderApp()" class="p-2.5 rounded-2xl text-xs font-black border-2 text-left flex items-center gap-2 transition ${cat === 'All' ? 'bg-red-600 text-yellow-300 border-red-600' : 'bg-yellow-50 text-gray-800 border-yellow-300'}">
+                <i data-lucide="layers" class="w-4 h-4 shrink-0"></i>
+                <span class="truncate">All (${appData.products.length})</span>
+              </button>
+              ${ALL_20_CATEGORIES.map(c => `
+                <button onclick="uiState.selectedCategory=\`${c.name}\`; renderApp()" class="p-2.5 rounded-2xl text-xs font-bold border-2 text-left flex items-center gap-2 transition ${cat === c.name ? 'bg-red-600 text-yellow-300 border-red-600' : 'bg-white text-gray-800 border-gray-200 hover:border-yellow-400'}">
+                  <i data-lucide="${c.icon}" class="w-4 h-4 shrink-0 ${cat === c.name ? 'text-yellow-300' : 'text-red-600'}"></i>
+                  <span class="truncate">${c.name}</span>
+                </button>
+              `).join('')}
+            </div>
+          </div>
+
+          <div>
+            <h3 class="font-black text-base text-gray-900 mb-3">Category: <span class="text-red-600">${cat}</span> (${list.length} items)</h3>
+            ${list.length > 0 ? `
+              <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+                ${list.map(p => renderProductCard(p)).join('')}
+              </div>
+            ` : `
+              <div class="bg-white rounded-3xl p-8 text-center border-2 border-dashed border-gray-300 space-y-2">
+                <p class="font-bold text-gray-600 text-sm">No products listed under "${cat}" yet.</p>
+                ${isAdmin() ? `<button onclick="openAdminProductModal()" class="bg-red-600 text-yellow-300 px-4 py-2 rounded-xl text-xs font-black">+ Upload Product to ${cat}</button>` : ''}
+              </div>
+            `}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderOffersView() {
+      return `
+        <div class="space-y-5">
+          <div class="bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-400 rounded-3xl p-5 border-4 border-red-600 text-red-950 shadow-lg flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="font-black text-2xl uppercase tracking-tight">Attractive Offers & Deals</h2>
+              <p class="text-xs font-bold mt-1">Today's Deals • Flash Sales • BOGO • Festival & Limited-Time Coupons</p>
+            </div>
+            ${isAdmin() ? `<button onclick="openAdminOfferModal()" class="bg-red-600 text-yellow-300 border-2 border-white px-4 py-2 rounded-xl text-xs font-black shadow">+ Create New Offer</button>` : ''}
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            ${appData.offers.map(o => `
+              <div class="bg-white rounded-3xl p-4 border-2 border-red-600 shadow-md flex flex-col justify-between gap-3">
+                <div>
+                  <div class="flex items-center justify-between">
+                    <span class="bg-red-600 text-yellow-300 text-[10px] font-black px-2.5 py-1 rounded-full uppercase">${o.category}</span>
+                    <span class="bg-green-100 text-green-800 text-[11px] font-black px-2.5 py-0.5 rounded-full">${o.discountPct}% OFF</span>
+                  </div>
+                  <h3 class="font-black text-lg text-gray-900 mt-2">${o.title}</h3>
+                  <div class="flex items-baseline gap-2 my-1">
+                    <span class="text-xl font-black text-red-600">₹${o.newPrice.toLocaleString('en-IN')}</span>
+                    <span class="text-xs text-gray-400 line-through font-bold">₹${o.oldPrice.toLocaleString('en-IN')}</span>
+                  </div>
+                  <p class="text-xs text-gray-600">${o.bannerText}</p>
+                </div>
+                <div class="flex items-center justify-between bg-yellow-50 border-2 border-dashed border-red-400 px-3 py-2 rounded-xl">
+                  <span class="text-xs font-black text-red-950">Coupon: <span class="underline">${o.code}</span></span>
+                  <div class="flex gap-1.5">
+                    <button onclick="copyCouponCode('${o.code}')" class="bg-red-600 text-yellow-300 px-3 py-1 rounded-lg text-[11px] font-black">Copy</button>
+                    ${isAdmin() ? `<button onclick="adminDeleteOffer('${o.id}')" class="bg-gray-200 text-gray-800 px-2 py-1 rounded-lg text-[11px] font-bold">Delete</button>` : ''}
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div>
+            <h3 class="font-black text-base text-gray-900 mb-3">Special Offer Products</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              ${appData.products.map(p => renderProductCard(p)).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function copyCouponCode(code) {
+      const ta = document.createElement("textarea");
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      uiState.appliedCoupon = code;
+      showToast(`Coupon "${code}" Copied & Applied to Cart!`);
+    }
+
+    function renderCartView() {
+      const subtotal = appData.cart.reduce((s, i) => s + (i.price * i.qty), 0);
+      const delivery = subtotal === 0 ? 0 : (subtotal >= 999 ? 0 : 40);
+      const discount = uiState.appliedCoupon ? Math.round(subtotal * 0.1) : 0;
+      const total = Math.max(0, subtotal + delivery - discount);
+
+      return `
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="font-black text-xl text-gray-900">Shopping Cart (${appData.cart.reduce((s, i) => s + i.qty, 0)})</h2>
+            <span class="text-xs font-bold text-green-700 bg-green-50 px-3 py-1 rounded-full border border-green-200">Free Delivery above ₹999</span>
+          </div>
+
+          ${appData.cart.length === 0 ? `
+            <div class="bg-white rounded-3xl p-10 text-center border-2 border-yellow-400 shadow-sm space-y-3">
+              <div class="w-16 h-16 bg-yellow-100 text-red-600 rounded-full flex items-center justify-center mx-auto">
+                <i data-lucide="shopping-bag" class="w-8 h-8"></i>
+              </div>
+              <h3 class="font-black text-lg text-gray-900">Your Shopping Cart is Empty</h3>
+              <p class="text-xs text-gray-500">Add amplifiers, mobiles, fashion, or appliances from JAMS ELECTRONICS.</p>
+              <button onclick="navigateTo('home')" class="bg-red-600 text-yellow-300 border-2 border-yellow-400 px-6 py-2.5 rounded-2xl font-black text-xs uppercase shadow">Start Shopping</button>
+            </div>
+          ` : `
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+              <div class="lg:col-span-2 space-y-3">
+                ${appData.cart.map((item, idx) => `
+                  <div class="bg-white rounded-2xl p-3.5 border-2 border-gray-100 shadow-sm flex gap-3">
+                    <img src="${item.image}" class="w-20 h-20 rounded-xl object-cover border border-yellow-400 shrink-0" />
+                    <div class="flex-1 min-w-0">
+                      <h4 class="font-bold text-xs sm:text-sm text-gray-900 truncate">${item.name}</h4>
+                      <p class="text-[11px] text-gray-500 mt-0.5">Size: <strong>${item.size}</strong> • Colour: <strong>${item.color}</strong></p>
+                      <p class="text-[10px] text-gray-400">${item.packDetails}</p>
+                      <p class="font-black text-red-600 text-sm mt-1">₹${(item.price * item.qty).toLocaleString('en-IN')}</p>
+
+                      <div class="flex flex-wrap items-center justify-between gap-2 mt-2.5 pt-2 border-t border-gray-100">
+                        <!-- Decrease & Increase Quantity Buttons -->
+                        <div class="flex items-center gap-2 bg-gray-100 rounded-xl px-2 py-1">
+                          <button onclick="changeCartQty(${idx}, -1)" class="w-6 h-6 bg-white rounded-lg font-black text-red-600 shadow-sm">-</button>
+                          <span class="font-black text-xs px-1">${item.qty}</span>
+                          <button onclick="changeCartQty(${idx}, 1)" class="w-6 h-6 bg-white rounded-lg font-black text-red-600 shadow-sm">+</button>
+                        </div>
+
+                        <!-- Remove Button + Buy Now Button Right Next to It -->
+                        <div class="flex items-center gap-2">
+                          <button onclick="removeCartItem(${idx})" class="bg-red-50 hover:bg-red-100 text-red-700 px-3 py-1.5 rounded-xl text-xs font-bold">
+                            Remove
+                          </button>
+                          <button onclick="openCheckoutModal()" class="bg-red-600 hover:bg-red-700 text-yellow-300 border border-yellow-400 px-3.5 py-1.5 rounded-xl text-xs font-black shadow">
+                            Buy Now
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+
+              <!-- Cart Summary & Coupon -->
+              <div class="bg-white rounded-3xl p-5 border-2 border-yellow-400 shadow-md h-fit space-y-3">
+                <h3 class="font-black text-base text-gray-900 border-b border-gray-100 pb-2">Cart Summary</h3>
+                <div class="flex gap-1.5">
+                  <input type="text" id="cart-coupon-input" value="${uiState.appliedCoupon || ''}" placeholder="Coupon (e.g. JAMS26)" class="flex-1 p-2 border border-gray-300 rounded-xl text-xs font-bold uppercase" />
+                  <button onclick="applyCartCoupon()" class="bg-yellow-400 text-red-950 px-3 py-2 rounded-xl text-xs font-black">Apply</button>
+                </div>
+                <div class="space-y-2 text-xs pt-1">
+                  <div class="flex justify-between"><span>Products Total:</span><span class="font-bold">₹${subtotal.toLocaleString('en-IN')}</span></div>
+                  <div class="flex justify-between"><span>Delivery Charges:</span><span class="font-bold text-green-700">${delivery === 0 ? 'FREE' : '₹' + delivery}</span></div>
+                  ${discount > 0 ? `<div class="flex justify-between text-green-700 font-bold"><span>Coupon Savings:</span><span>-₹${discount.toLocaleString('en-IN')}</span></div>` : ''}
+                  <div class="flex justify-between text-base font-black text-red-600 pt-2 border-t border-gray-200">
+                    <span>Total Amount:</span><span>₹${total.toLocaleString('en-IN')}</span>
+                  </div>
+                </div>
+                <button onclick="openCheckoutModal()" class="w-full bg-red-600 hover:bg-red-700 text-yellow-300 border-2 border-yellow-400 py-3.5 rounded-2xl font-black text-sm uppercase shadow-lg">
+                  Proceed to Checkout →
+                </button>
+              </div>
+            </div>
+          `}
+        </div>
+      `;
+    }
+
+    function changeCartQty(idx, delta) {
+      appData.cart[idx].qty += delta;
+      if (appData.cart[idx].qty <= 0) appData.cart.splice(idx, 1);
+      saveState();
+      syncHeaderSecurity();
+      renderApp();
+    }
+
+    function removeCartItem(idx) {
+      appData.cart.splice(idx, 1);
+      saveState();
+      syncHeaderSecurity();
+      showToast("Product removed from Cart");
+      renderApp();
+    }
+
+    function applyCartCoupon() {
+      const code = document.getElementById("cart-coupon-input").value.trim().toUpperCase();
+      if (!code) return;
+      uiState.appliedCoupon = code;
+      showToast(`Coupon "${code}" Applied (10% Extra Savings)!`);
+      renderApp();
+    }
+
+    // =========================================================================
+    // 9. ACCOUNT TAB (CUSTOMER PROFILE, MY ORDERS, 3-HR TIMER & ADMIN PANEL)
+    // =========================================================================
+    function renderAccountView() {
+      const user = appData.currentUser;
+      // Customers see ONLY their own orders; Admin sees ALL orders
+      const visibleOrders = isAdmin()
+        ? appData.orders
+        : appData.orders.filter(o => o.customerId === user.uid || o.customerMobile === user.mobile);
+
+      return `
+        <div class="space-y-5">
+          <!-- Profile & Authentication Header -->
+          <div class="bg-gradient-to-r from-red-700 to-red-600 rounded-3xl p-5 text-white border-4 border-yellow-400 shadow-xl space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="flex items-center gap-3">
+                <div class="w-14 h-14 rounded-2xl bg-yellow-400 text-red-950 font-black text-xl flex items-center justify-center border-2 border-white shadow">
+                  ${user.name.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <span class="bg-yellow-400 text-red-950 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase">
+                    ${isAdmin() ? "AUTHORIZED ADMIN • MUKTER ALI" : "VERIFIED CUSTOMER"}
+                  </span>
+                  <h2 class="font-black text-xl mt-1">${user.name}</h2>
+                  <p class="text-xs text-yellow-200">${user.mobile} • PIN: ${user.pinCode}</p>
+                </div>
+              </div>
+
+              <!-- Role Login Controls -->
+              <div class="bg-white/10 p-3 rounded-2xl border border-white/25 space-y-2 text-xs">
+                ${isAdmin() ? `
+                  <button onclick="switchToCustomer()" class="w-full bg-yellow-400 text-red-950 px-4 py-2 rounded-xl font-black uppercase shadow">
+                    Logout Admin (Switch to Customer)
+                  </button>
+                ` : `
+                  <p class="text-[10px] font-black text-yellow-200 uppercase">Admin Login (Mukter Ali):</p>
+                  <div class="flex gap-1.5">
+                    <input type="password" id="admin-secret-input" placeholder="Enter Admin Key (8509842589)" class="px-2.5 py-1.5 rounded-xl text-gray-900 font-bold w-44" />
+                    <button onclick="loginAsAdmin()" class="bg-yellow-400 text-red-950 px-3 py-1.5 rounded-xl font-black">Login</button>
+                  </div>
+                `}
+              </div>
+            </div>
+
+            <!-- Language Settings (English, Bengali, Hindi) -->
+            <div class="pt-3 border-t border-white/20 flex flex-wrap items-center justify-between gap-2">
+              <span class="text-xs font-bold text-yellow-200">Language Settings (ভাষা / भाषा):</span>
+              <div class="flex gap-2">
+                <button onclick="setLanguage('en')" class="px-3 py-1 rounded-xl text-xs font-black ${uiState.lang === 'en' ? 'bg-yellow-400 text-red-950' : 'bg-white/15 text-white'}">English</button>
+                <button onclick="setLanguage('bn')" class="px-3 py-1 rounded-xl text-xs font-black ${uiState.lang === 'bn' ? 'bg-yellow-400 text-red-950' : 'bg-white/15 text-white'}">বাংলা</button>
+                <button onclick="setLanguage('hi')" class="px-3 py-1 rounded-xl text-xs font-black ${uiState.lang === 'hi' ? 'bg-yellow-400 text-red-950' : 'bg-white/15 text-white'}">हिन्दी</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- PRIVATE ADMIN DASHBOARD (Visible ONLY when authenticated as Mukter Ali) -->
+          ${isAdmin() ? renderAdminDashboardPanel() : ""}
+
+          <!-- MY ORDERS & 3-HOUR RETURN REQUEST SYSTEM -->
+          <div class="bg-white rounded-3xl p-5 border-2 border-yellow-400 shadow-sm space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="font-black text-lg text-gray-900 flex items-center gap-2">
+                <i data-lucide="package" class="w-5 h-5 text-red-600"></i>
+                ${isAdmin() ? "All Customer Orders (Admin View)" : "My Orders & Live Tracking"}
+              </h3>
+              <span class="text-xs font-bold text-gray-500">${visibleOrders.length} Orders</span>
+            </div>
+
+            <div class="space-y-3">
+              ${visibleOrders.map(order => {
+                // 3-Hour Return Request Timer Calculation
+                let returnSection = "";
+                if (order.orderStatus === "Delivered" && order.deliveredAt) {
+                  const elapsed = Date.now() - order.deliveredAt;
+                  const threeHours = 3 * 60 * 60 * 1000;
+                  const remaining = threeHours - elapsed;
+                  const expired = remaining <= 0;
+                  const minsTotal = Math.max(0, Math.floor(remaining / 60000));
+                  const hrs = Math.floor(minsTotal / 60);
+                  const mins = minsTotal % 60;
+
+                  returnSection = `
+                    <div class="mt-3 pt-3 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
+                      <div class="text-[11px]">
+                        ${!expired
+                          ? `<span class="text-green-700 font-black">⏱ 3-Hour Return Timer: ${hrs}h ${mins}m remaining</span>`
+                          : `<span class="text-gray-500 font-bold">⏱ Ordinary 3-hour return closed (Mandatory defect protection active)</span>`
+                        }
+                      </div>
+                      <button onclick="openReturnRequestModal('${order.id}', ${expired})" class="${!expired ? 'bg-red-600 text-yellow-300 border border-yellow-400' : 'bg-gray-200 text-gray-800'} px-3.5 py-1.5 rounded-xl text-xs font-black">
+                        ${!expired ? "Request Return" : "Defective Item Return Claim"}
+                      </button>
+                    </div>
+                  `;
+                } else if (order.returnRequest) {
+                  returnSection = `
+                    <div class="mt-3 pt-2 border-t border-gray-100 bg-yellow-50 p-2.5 rounded-xl text-xs">
+                      <p class="font-black text-red-800">Return Status: ${order.returnRequest.status} • Refund: ${order.returnRequest.refundStatus}</p>
+                      <p class="text-gray-600">Reason: ${order.returnRequest.reason}</p>
+                    </div>
+                  `;
+                }
+
+                return `
+                  <div class="border-2 border-gray-100 rounded-2xl p-4 hover:border-yellow-400 transition">
+                    <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-gray-100">
+                      <div>
+                        <span class="font-black text-xs text-red-600">#${order.id}</span>
+                        <span class="text-[11px] text-gray-500 ml-2">${new Date(order.orderDate).toLocaleDateString()}</span>
+                      </div>
+                      <span class="bg-yellow-400 text-red-950 text-[11px] font-black px-3 py-0.5 rounded-full">
+                        ${order.orderStatus}
+                      </span>
+                    </div>
+
+                    ${order.items.map(it => `
+                      <div class="flex items-center gap-3 py-2.5">
+                        <img src="${it.image}" class="w-14 h-14 rounded-xl object-cover border border-gray-200" />
+                        <div class="flex-1 text-xs">
+                          <p class="font-bold text-gray-900">${it.name}</p>
+                          <p class="text-gray-500">Size: ${it.size} • Colour: ${it.color} • Qty: ${it.qty}</p>
+                          <p class="text-[10px] text-gray-400">${it.packDetails}</p>
+                          <p class="font-black text-red-600 mt-0.5">₹${it.price.toLocaleString('en-IN')}</p>
+                        </div>
+                      </div>
+                    `).join('')}
+
+                    <div class="flex flex-wrap justify-between text-[11px] text-gray-600 bg-gray-50 p-2.5 rounded-xl gap-2">
+                      <span>Payment: <strong>${order.paymentMethod} (${order.paymentStatus})</strong></span>
+                      <span>Expected Delivery: <strong>${order.expectedDelivery}</strong></span>
+                      <span>Total: <strong class="text-gray-900">₹${order.totalAmount.toLocaleString('en-IN')}</strong></span>
+                    </div>
+
+                    ${returnSection}
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+
+          <!-- Customer Profile Settings, Saved Addresses, Wishlist & Legal Links -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form onsubmit="updateCustomerProfile(event)" class="bg-white rounded-3xl p-5 border border-gray-200 space-y-2.5 text-xs">
+              <h4 class="font-black text-sm text-red-700 uppercase">Profile & Saved Delivery Address</h4>
+              <input type="text" id="prof-name" value="${user.name}" placeholder="Customer Name" class="w-full p-2.5 border border-gray-300 rounded-xl font-bold" required />
+              <input type="tel" id="prof-mob" value="${user.mobile}" placeholder="Mobile Number" class="w-full p-2.5 border border-gray-300 rounded-xl font-bold" required />
+              <input type="email" id="prof-email" value="${user.email || ''}" placeholder="Email Address (Optional)" class="w-full p-2.5 border border-gray-300 rounded-xl" />
+              <input type="text" id="prof-addr" value="${user.address}" placeholder="Full Delivery Address" class="w-full p-2.5 border border-gray-300 rounded-xl font-semibold" required />
+              <div class="flex gap-2">
+                <input type="text" id="prof-pin" value="${user.pinCode}" placeholder="PIN Code" class="w-32 p-2.5 border border-gray-300 rounded-xl font-bold" required />
+                <button type="submit" class="flex-1 bg-red-600 text-yellow-300 py-2.5 rounded-xl font-black uppercase">Save Profile & Address</button>
+              </div>
+            </form>
+
+            <div class="bg-white rounded-3xl p-5 border border-gray-200 space-y-3 text-xs">
+              <h4 class="font-black text-sm text-red-700 uppercase">Wishlist, Malda Seller Portal & Store Info</h4>
+              <p class="text-gray-600"><strong>Saved Wishlist Items:</strong> ${appData.wishlist.length} products</p>
+              <div class="flex flex-wrap gap-2">
+                <button onclick="openLegalModal('About JAMS ELECTRONICS', '<p><strong>JAMS ELECTRONICS</strong> is founded and owned by <strong>Mukter Ali</strong>, located at <strong>Ramnagar, Gazole, Malda, West Bengal, India</strong>.</p><p>Launch Target: <strong>1 January 2027</strong>. Customer Helpline: <strong>8509842589</strong>.</p>')" class="bg-yellow-100 text-red-900 px-3 py-1.5 rounded-xl font-bold">About Us</button>
+                <button onclick="openLegalModal('Privacy Policy & Terms', '<p>Customer addresses, phone numbers, and order history are strictly private and accessible only to the customer and authorized store admin (Mukter Ali) for order fulfillment.</p><p>Standard return window is 3 hours post-delivery; mandatory consumer rights for defective products are fully protected.</p>')" class="bg-yellow-100 text-red-900 px-3 py-1.5 rounded-xl font-bold">Privacy & Terms</button>
+                <button onclick="openLegalModal('Future Multi-Seller Onboarding (Malda)', '<p>Authorized shopkeepers across Malda, West Bengal will soon be able to register, undergo Admin verification by Mukter Ali, and list products on JAMS ELECTRONICS.</p>')" class="bg-red-50 text-red-700 px-3 py-1.5 rounded-xl font-bold">Malda Seller Registration</button>
+              </div>
+              <p class="text-[11px] text-gray-400 pt-2 border-t border-gray-100">App Version: ${STORE_INFO.version} • Customer Support: 8509842589</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function updateCustomerProfile(e) {
+      e.preventDefault();
+      appData.currentUser.name = document.getElementById("prof-name").value.trim();
+      appData.currentUser.mobile = document.getElementById("prof-mob").value.trim();
+      appData.currentUser.email = document.getElementById("prof-email").value.trim();
+      appData.currentUser.address = document.getElementById("prof-addr").value.trim();
+      appData.currentUser.pinCode = document.getElementById("prof-pin").value.trim();
+      saveState();
+      syncHeaderSecurity();
+      showToast("Customer Profile & Delivery Address Saved!");
+      renderApp();
+    }
+
+    // =========================================================================
+    // 10. PRIVATE ADMIN DASHBOARD PANEL (MUKTER ALI ONLY)
+    // =========================================================================
+    function renderAdminDashboardPanel() {
+      const totalProducts = appData.products.length;
+      const totalOrders = appData.orders.length;
+      const newOrders = appData.orders.filter(o => o.orderStatus === "Order Placed").length;
+      const confirmedOrders = appData.orders.filter(o => o.orderStatus === "Order Confirmed").length;
+      const deliveredOrders = appData.orders.filter(o => o.orderStatus === "Delivered").length;
+      const cancelledOrders = appData.orders.filter(o => o.orderStatus === "Cancelled").length;
+      const returnRequests = appData.orders.filter(o => o.orderStatus === "Return Requested" || o.returnRequest).length;
+      const totalSales = appData.orders.filter(o => o.orderStatus !== "Cancelled").reduce((s, o) => s + o.totalAmount, 0);
+      const lowStock = appData.products.filter(p => p.stock <= 5).length;
+
+      return `
+        <div class="bg-white rounded-3xl p-5 border-4 border-red-600 shadow-2xl space-y-5">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b-2 border-yellow-400 pb-3">
+            <div>
+              <h3 class="font-black text-lg text-red-700 uppercase">Private Admin Dashboard • Mukter Ali</h3>
+              <p class="text-xs text-gray-500">Complete Store, Order, Video Ad, Offer & Inventory Control</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <button onclick="openAdminProductModal()" class="bg-red-600 text-yellow-300 border border-yellow-400 px-3 py-1.5 rounded-xl text-xs font-black">+ Product</button>
+              <button onclick="openAdminVideoModal()" class="bg-yellow-400 text-red-950 px-3 py-1.5 rounded-xl text-xs font-black">+ Video Ad</button>
+              <button onclick="openAdminOfferModal()" class="bg-red-100 text-red-800 px-3 py-1.5 rounded-xl text-xs font-black">+ Offer</button>
+            </div>
+          </div>
+
+          <!-- 9 Sales & Inventory KPI Cards -->
+          <div class="grid grid-cols-3 sm:grid-cols-5 gap-2.5 text-center">
+            <div class="bg-yellow-50 border border-yellow-400 p-2.5 rounded-2xl">
+              <p class="text-[10px] font-bold text-gray-600">Total Products</p>
+              <p class="text-lg font-black text-red-700">${totalProducts}</p>
+            </div>
+            <div class="bg-yellow-50 border border-yellow-400 p-2.5 rounded-2xl">
+              <p class="text-[10px] font-bold text-gray-600">Total Orders</p>
+              <p class="text-lg font-black text-red-700">${totalOrders}</p>
+            </div>
+            <div class="bg-yellow-50 border border-yellow-400 p-2.5 rounded-2xl">
+              <p class="text-[10px] font-bold text-gray-600">New / Confirmed</p>
+              <p class="text-lg font-black text-red-700">${newOrders} / ${confirmedOrders}</p>
+            </div>
+            <div class="bg-green-50 border border-green-300 p-2.5 rounded-2xl">
+              <p class="text-[10px] font-bold text-green-800">Delivered / Sales</p>
+              <p class="text-sm sm:text-base font-black text-green-700">${deliveredOrders} • ₹${totalSales.toLocaleString('en-IN')}</p>
+            </div>
+            <div class="bg-red-50 border border-red-300 p-2.5 rounded-2xl">
+              <p class="text-[10px] font-bold text-red-800">Returns / Low Stock</p>
+              <p class="text-lg font-black text-red-700">${returnRequests} / ${lowStock}</p>
+            </div>
+          </div>
+
+          <!-- Admin Order Status & Return Controls -->
+          <div class="space-y-2.5">
+            <h4 class="font-black text-sm text-gray-900 uppercase">Customer Orders & Return Management</h4>
+            ${appData.orders.map(o => `
+              <div class="bg-gray-50 p-3.5 rounded-2xl border border-gray-200 space-y-2 text-xs">
+                <div class="flex flex-wrap justify-between items-center gap-2">
+                  <div>
+                    <span class="font-black text-red-700">#${o.id}</span> • <strong>${o.customerName}</strong> (${o.customerMobile})
+                    <p class="text-gray-600">Address: ${o.address} (PIN: ${o.pinCode}) • Payment: ${o.paymentMethod}</p>
+                  </div>
+                  <select onchange="adminChangeOrderStatus('${o.id}', this.value)" class="p-2 border-2 border-red-600 rounded-xl font-black bg-white text-xs">
+                    ${ORDER_STATUSES.map(st => `<option value="${st}" ${o.orderStatus === st ? 'selected' : ''}>${st}</option>`).join('')}
+                  </select>
+                </div>
+                ${o.returnRequest ? `
+                  <div class="bg-red-100 p-2.5 rounded-xl flex flex-wrap items-center justify-between gap-2">
+                    <span class="font-bold text-red-900">Return Claim: ${o.returnRequest.reason} (${o.returnRequest.status})</span>
+                    <div class="flex gap-1.5">
+                      <button onclick="adminResolveReturn('${o.id}', 'Approved', 'Refund Completed')" class="bg-green-600 text-white px-2.5 py-1 rounded-lg font-bold">Approve & Refund</button>
+                      <button onclick="adminResolveReturn('${o.id}', 'Rejected', 'Rejected')" class="bg-red-700 text-white px-2.5 py-1 rounded-lg font-bold">Reject</button>
+                    </div>
+                  </div>
+                ` : ""}
+              </div>
+            `).join('')}
+          </div>
+
+          <!-- Admin Product Inventory Table -->
+          <div class="space-y-2">
+            <h4 class="font-black text-sm text-gray-900 uppercase">Inventory, Prices & Stock Control</h4>
+            <div class="divide-y divide-gray-200 border border-gray-200 rounded-2xl overflow-hidden">
+              ${appData.products.map(p => `
+                <div class="p-3 bg-white flex flex-wrap items-center justify-between gap-2 text-xs">
+                  <div class="flex items-center gap-2.5">
+                    <img src="${p.imageUrl}" class="w-10 h-10 rounded-lg object-cover" />
+                    <div>
+                      <p class="font-bold text-gray-900">${p.name}</p>
+                      <p class="text-gray-500">Selling: <strong>₹${p.discountPrice}</strong> • Stock: <strong class="${p.stock <= 5 ? 'text-red-600' : 'text-green-700'}">${p.stock}</strong></p>
+                    </div>
+                  </div>
+                  <div class="flex gap-1.5">
+                    <button onclick="openAdminProductModal('${p.id}')" class="bg-yellow-400 text-red-950 px-3 py-1.5 rounded-xl font-black">Edit</button>
+                    <button onclick="adminRemoveProduct('${p.id}')" class="bg-red-100 text-red-700 px-3 py-1.5 rounded-xl font-bold">Delete</button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function adminChangeOrderStatus(orderId, status) {
+      const order = appData.orders.find(o => o.id === orderId);
+      if (!order) return;
+      order.orderStatus = status;
+      if (status === "Delivered" && !order.deliveredAt) {
+        order.deliveredAt = Date.now(); // Triggers 3-hour customer return timer
+      }
+      saveState();
+      showToast(`Order #${orderId} updated to ${status}`);
+      renderApp();
+    }
+
+    function adminResolveReturn(orderId, status, refundStatus) {
+      const order = appData.orders.find(o => o.id === orderId);
+      if (!order || !order.returnRequest) return;
+      order.returnRequest.status = status;
+      order.returnRequest.refundStatus = refundStatus;
+      saveState();
+      showToast(`Return ${status} • ${refundStatus}`);
+      renderApp();
+    }
+
+    function adminRemoveProduct(id) {
+      appData.products = appData.products.filter(p => p.id !== id);
+      saveState();
+      showToast("Product Deleted");
+      renderApp();
+    }
+
+    // Admin Video Ad & Offer Modals
+    function openAdminVideoModal() {
+      openModal(`
+        <div class="bg-red-600 px-5 py-4 text-white flex items-center justify-between">
+          <h3 class="font-black text-base uppercase text-yellow-300">Admin: Upload Promotional Video Ad</h3>
+          <button onclick="closeModal()" class="p-1 bg-red-700 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <form onsubmit="saveAdminVideo(event)" class="p-5 space-y-3 text-xs">
+          <input type="text" id="v-title" required placeholder="Video Title *" class="w-full p-2.5 border-2 border-gray-300 rounded-xl font-bold" />
+          <textarea id="v-desc" required rows="2" placeholder="Video Description *" class="w-full p-2.5 border-2 border-gray-300 rounded-xl"></textarea>
+          <input type="text" id="v-url" value="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoy.mp4" required placeholder="MP4 Video URL *" class="w-full p-2.5 border-2 border-gray-300 rounded-xl" />
+          <select id="v-prod" class="w-full p-2.5 border-2 border-gray-300 rounded-xl font-bold bg-white">
+            ${appData.products.map(p => `<option value="${p.id}">${p.name}</option>`).join('')}
+          </select>
+          <button type="submit" class="w-full bg-red-600 text-yellow-300 border-2 border-yellow-400 py-3 rounded-2xl font-black uppercase">Publish Video Ad</button>
+        </form>
+      `);
+    }
+
+    function saveAdminVideo(e) {
+      e.preventDefault();
+      appData.videoAds.unshift({
+        id: "vid-" + Date.now(),
+        title: document.getElementById("v-title").value.trim(),
+        description: document.getElementById("v-desc").value.trim(),
+        videoUrl: document.getElementById("v-url").value.trim(),
+        linkedProductId: document.getElementById("v-prod").value
+      });
+      saveState();
+      closeModal();
+      showToast("Video Advertisement Published!");
+      renderApp();
+    }
+
+    function adminDeleteVideo(id) {
+      appData.videoAds = appData.videoAds.filter(v => v.id !== id);
+      saveState();
+      showToast("Video Ad Deleted");
+      renderApp();
+    }
+
+    function openAdminOfferModal() {
+      openModal(`
+        <div class="bg-red-600 px-5 py-4 text-white flex items-center justify-between">
+          <h3 class="font-black text-base uppercase text-yellow-300">Admin: Create Attractive Offer</h3>
+          <button onclick="closeModal()" class="p-1 bg-red-700 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <form onsubmit="saveAdminOffer(event)" class="p-5 space-y-3 text-xs">
+          <select id="o-cat" class="w-full p-2.5 border-2 border-gray-300 rounded-xl font-bold bg-white">
+            <option>Today's Deals</option>
+            <option>Flash Sales</option>
+            <option>Buy One Get One Offers</option>
+            <option>Festival Offers</option>
+            <option>Limited-Time Offers</option>
+          </select>
+          <input type="text" id="o-title" required placeholder="Offer Title *" class="w-full p-2.5 border-2 border-gray-300 rounded-xl font-bold" />
+          <div class="grid grid-cols-3 gap-2">
+            <input type="number" id="o-old" required placeholder="Old Price ₹" class="p-2.5 border-2 border-gray-300 rounded-xl font-bold" />
+            <input type="number" id="o-new" required placeholder="New Price ₹" class="p-2.5 border-2 border-gray-300 rounded-xl font-bold" />
+            <input type="text" id="o-code" required placeholder="Coupon Code" class="p-2.5 border-2 border-gray-300 rounded-xl font-bold uppercase" />
+          </div>
+          <input type="text" id="o-banner" required placeholder="Promotional Banner Text *" class="w-full p-2.5 border-2 border-gray-300 rounded-xl" />
+          <button type="submit" class="w-full bg-red-600 text-yellow-300 border-2 border-yellow-400 py-3 rounded-2xl font-black uppercase">Publish Offer</button>
+        </form>
+      `);
+    }
+
+    function saveAdminOffer(e) {
+      e.preventDefault();
+      const oldP = Number(document.getElementById("o-old").value);
+      const newP = Number(document.getElementById("o-new").value);
+      const pct = oldP > newP ? Math.round(((oldP - newP) / oldP) * 100) : 15;
+      appData.offers.unshift({
+        id: "off-" + Date.now(),
+        category: document.getElementById("o-cat").value,
+        title: document.getElementById("o-title").value.trim(),
+        oldPrice: oldP,
+        newPrice: newP,
+        discountPct: pct,
+        code: document.getElementById("o-code").value.trim().toUpperCase(),
+        bannerText: document.getElementById("o-banner").value.trim()
+      });
+      saveState();
+      closeModal();
+      showToast("New Offer Published!");
+      renderApp();
+    }
+
+    function adminDeleteOffer(id) {
+      appData.offers = appData.offers.filter(o => o.id !== id);
+      saveState();
+      showToast("Offer Removed");
+      renderApp();
+    }
+
+    // =========================================================================
+    // 11. MAIN RENDER ENGINE
+    // =========================================================================
+    function renderApp() {
+      const root = document.getElementById("app-root");
+      if (uiState.activeTab === "home") root.innerHTML = renderHomeView();
+      else if (uiState.activeTab === "categories") root.innerHTML = renderCategoriesView();
+      else if (uiState.activeTab === "offers") root.innerHTML = renderOffersView();
+      else if (uiState.activeTab === "cart") root.innerHTML = renderCartView();
+      else if (uiState.activeTab === "account") root.innerHTML = renderAccountView();
+      lucide.createIcons();
+    }
+
+    window.onload = function () {
+      syncHeaderSecurity();
+      renderApp();
+    };
+  </script>
+</body>
+</html>
